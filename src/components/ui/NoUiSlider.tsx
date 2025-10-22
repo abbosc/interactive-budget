@@ -1,8 +1,9 @@
 import { useEffect, useRef, useCallback, memo } from 'react'
 import noUiSlider from 'nouislider'
-import type { API as NoUiSliderTarget } from 'nouislider'
 import { formatNumber } from '../../lib/formatters'
 import './NoUiSlider.css'
+
+type NoUiSliderTarget = noUiSlider.noUiSlider
 
 // Custom throttle function with leading edge (fires immediately, then throttles)
 function throttle<T extends (...args: any[]) => void>(
