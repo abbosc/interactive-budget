@@ -1,0 +1,522 @@
+/* Russian Budget Design - Exact Match */
+
+/* Base Page Styling */
+.russian-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+  font-family: 'OpenSans', Arial, Helvetica, sans-serif;
+  color: #fff;
+}
+
+.russian-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Header */
+.russian-header {
+  padding: 22px 0 42px 0;
+  background: #22c55e;
+}
+
+.russian-header__content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.russian-header__main-title {
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 1.2;
+  margin-bottom: 5px;
+}
+
+.russian-header__subtitle {
+  font-weight: 300;
+  font-size: 15px;
+  opacity: 0.9;
+}
+
+/* Top Budget Summary Boxes */
+.russian-total-budget {
+  padding: 20px 0;
+  background: #16a34a;
+}
+
+.russian-total-budget__content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.russian-total-budget__box {
+  position: relative;
+  flex: 1;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.russian-total-budget__box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.russian-total-budget__box--income {
+  background: linear-gradient(135deg, #ff8243 0%, #ff6934 100%);
+}
+
+.russian-total-budget__box--expenses {
+  background: linear-gradient(135deg, #ff6934 0%, #f44336 100%);
+}
+
+.russian-total-budget__box--deficit {
+  background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+}
+
+.russian-total-budget__info-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.russian-total-budget__info-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.russian-total-budget__title {
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.95;
+  margin-bottom: 8px;
+}
+
+.russian-total-budget__sum {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.russian-total-budget__currency {
+  font-size: 18px;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+/* Main Content */
+.russian-content {
+  padding: 40px 0;
+}
+
+.russian-content__wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.russian-content__title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #fff;
+}
+
+/* Spending Layout Grid */
+.russian-spending-layout {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+/* Individual Spending Card */
+.russian-spending {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.russian-spending:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.russian-spending--expanded {
+  border: 3px solid #22c55e;
+  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.3);
+  transform: translateY(-4px);
+}
+
+.russian-spending__inner {
+  padding: 24px;
+}
+
+.russian-spending__group {
+  margin-bottom: 20px;
+}
+
+.russian-spending__group:last-child {
+  margin-bottom: 0;
+}
+
+/* Category Title and Icon */
+.russian-spending__title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.russian-spending__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.russian-spending__title-text {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.russian-spending__sum {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+}
+
+.russian-spending__currency {
+  font-size: 14px;
+  font-weight: 400;
+  color: #666;
+  margin-left: 4px;
+}
+
+/* Percentage Progress Bar */
+.russian-percentages-view {
+  margin-bottom: 20px;
+}
+
+.russian-percentages-view__bar {
+  width: 100%;
+  height: 24px;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.russian-percentages-view__fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  transition: width 0.5s ease;
+}
+
+.russian-percentages-view__percentage {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.russian-percentages-view__delta {
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Budget Description */
+.russian-spending__sum-description-block {
+  min-height: 50px;
+  background: #e8f4f8;
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.russian-spending__sum-description {
+  display: flex;
+  gap: 20px;
+  font-size: 13px;
+  color: #666;
+}
+
+.russian-spending__sum-description-col {
+  flex: 1;
+}
+
+.russian-spending__sum-description-title {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 12px;
+  color: #999;
+}
+
+/* Button */
+.russian-button {
+  width: 100%;
+  padding: 14px 20px;
+  background: #f5f5f5;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.russian-button:hover {
+  background: #e8e8e8;
+}
+
+.russian-button__icon {
+  transition: transform 0.3s ease;
+}
+
+.russian-button__icon--rotated {
+  transform: rotate(180deg);
+}
+
+/* Expanded Subcategories */
+.russian-spending__sub-wrapper {
+  grid-column: 1 / -1;
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  animation: slideDown 0.3s ease;
+  margin-top: -12px;
+}
+
+.russian-spending__sub-wrapper ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.russian-spending__sub-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  margin: -32px -32px 32px -32px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-bottom: 3px solid #22c55e;
+  border-left: 6px solid #22c55e;
+  border-radius: 16px 16px 0 0;
+}
+
+.russian-spending__sub-header-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.russian-spending__icon--large {
+  width: 48px;
+  height: 48px;
+  font-size: 24px;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 2000px;
+  }
+}
+
+.russian-spending__sub {
+  padding: 40px 0;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.russian-spending__sub:first-child {
+  padding-top: 40px;
+}
+
+.russian-spending__sub:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.russian-spending__title--small {
+  font-size: 14px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.russian-spending__title--small .russian-spending__icon {
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+  background: none !important;
+}
+
+.russian-spending__title-slash {
+  color: #999;
+  margin: 0 4px;
+}
+
+.russian-spending__name {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.russian-spending__control {
+  margin-top: 16px;
+}
+
+.russian-spending__resume {
+  margin-bottom: 20px;
+}
+
+.russian-spending__sum--slider {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.russian-spending__slider-wrapper {
+  margin-top: 20px;
+}
+
+/* Action Buttons */
+.russian-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.russian-actions__button {
+  padding: 18px 40px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.russian-actions__button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.russian-actions__button--primary {
+  background: linear-gradient(135deg, #ff8243 0%, #ff6934 100%);
+  color: #fff;
+}
+
+.russian-actions__button--primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ff9055 0%, #ff7746 100%);
+  box-shadow: 0 6px 16px rgba(255, 105, 52, 0.3);
+  transform: translateY(-2px);
+}
+
+.russian-actions__button--secondary {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+.russian-actions__button--secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.russian-actions__button--reset {
+  background: #f44336;
+  color: #fff;
+}
+
+.russian-actions__button--reset:hover {
+  background: #d32f2f;
+  box-shadow: 0 6px 16px rgba(244, 67, 54, 0.3);
+  transform: translateY(-2px);
+}
+
+.russian-actions__button-icon {
+  font-family: 'FontAwesome';
+  font-size: 18px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .russian-spending-layout {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .russian-total-budget__content {
+    flex-direction: column;
+  }
+
+  .russian-spending-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .russian-actions {
+    flex-direction: column;
+  }
+
+  .russian-actions__button {
+    width: 100%;
+  }
+
+  .russian-header__main-title {
+    font-size: 20px;
+  }
+
+  .russian-content__title {
+    font-size: 24px;
+  }
+}
