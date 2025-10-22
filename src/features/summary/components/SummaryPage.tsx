@@ -60,13 +60,6 @@ export function SummaryPage() {
 
   const defaultDeficit = totalIncome - defaultExpenses
 
-  // Calculate average deficit from recent plans
-  const avgDeficit =
-    recentPlans && recentPlans.length > 0
-      ? recentPlans.reduce((sum, plan) => sum + plan.deficit, 0) /
-        recentPlans.length
-      : 0
-
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto p-8">

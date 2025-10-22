@@ -70,7 +70,7 @@ export function useDeleteSubcategoryImpact() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async ({ id, subcategoryId }: { id: string; subcategoryId: string }) => {
+    mutationFn: async ({ id }: { id: string; subcategoryId: string }) => {
       const { error } = await supabase
         .from('subcategory_impacts')
         .delete()

@@ -9,7 +9,7 @@ import { useSaveBudgetPlan } from '../hooks/useSaveBudgetPlan'
 import { useBudgetStore } from '../../../stores/budgetStore'
 import { formatNumber } from '../../../lib/formatters'
 import { useGridColumns } from '../../../lib/hooks/useMediaQuery'
-import type { Category, Impact, ThresholdType } from '../../../types/budget'
+import type { Impact, ThresholdType } from '../../../types/budget'
 import './RussianStyles.css'
 
 export function RussianExactDesign() {

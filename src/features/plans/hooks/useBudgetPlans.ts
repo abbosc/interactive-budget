@@ -63,7 +63,7 @@ export function useDeleteBudgetPlan() {
       console.log('🗑️ Delete successful, deleted rows:', data)
       return data
     },
-    onSuccess: (data, id) => {
+    onSuccess: (_, id) => {
       console.log('🗑️ onSuccess called, invalidating queries for plan:', id)
       // Invalidate and refetch budget plans list
       queryClient.invalidateQueries({ queryKey: ['budgetPlans'] })

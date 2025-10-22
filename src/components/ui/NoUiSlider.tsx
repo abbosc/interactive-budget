@@ -1,6 +1,6 @@
 import { useEffect, useRef, useCallback, memo } from 'react'
 import noUiSlider from 'nouislider'
-import type { target as NoUiSliderTarget } from 'nouislider'
+import type { API as NoUiSliderTarget } from 'nouislider'
 import { formatNumber } from '../../lib/formatters'
 import './NoUiSlider.css'
 
@@ -9,7 +9,7 @@ function throttle<T extends (...args: any[]) => void>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
-  let timeout: NodeJS.Timeout | null = null
+  let timeout: number | null = null
   let lastRan: number | null = null
 
   return function executedFunction(...args: Parameters<T>) {
@@ -22,7 +22,7 @@ function throttle<T extends (...args: any[]) => void>(
     } else {
       // Clear existing timeout
       if (timeout) {
-        clearTimeout(timeout)
+        window.clearTimeout(timeout)
       }
 
       // Calculate time since last execution
@@ -34,7 +34,7 @@ function throttle<T extends (...args: any[]) => void>(
         lastRan = now
       } else {
         // Schedule execution for later
-        timeout = setTimeout(() => {
+        timeout = window.setTimeout(() => {
           func(...args)
           lastRan = Date.now()
           timeout = null
@@ -60,7 +60,6 @@ export const NoUiSlider = memo(function NoUiSlider({
   value,
   defaultValue,
   onChange,
-  color = '#3fb8af',
   step = 1,
 }: NoUiSliderProps) {
   const sliderRef = useRef<HTMLDivElement>(null)
@@ -80,12 +79,6 @@ export const NoUiSlider = memo(function NoUiSlider({
     }, 150),
     []
   )
-
-  // Format to millions with European style
-  const formatMillions = (val: number) => {
-    const millions = val / 1_000_000
-    return formatNumber(millions, 1)
-  }
 
   // Format change amount (difference from default)
   const formatChange = (val: number) => {

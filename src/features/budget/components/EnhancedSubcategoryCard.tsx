@@ -29,7 +29,6 @@ export function EnhancedSubcategoryCard({
 
   const isChanged = currentValue !== subcategory.default_value
   const isIncreased = percentChange > 0
-  const isDecreased = percentChange < 0
 
   const getStatusIcon = () => {
     if (Math.abs(percentChange) < 1) return <CheckCircle className="w-4 h-4 text-green-500" />

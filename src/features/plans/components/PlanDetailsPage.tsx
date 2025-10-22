@@ -211,9 +211,6 @@ export function PlanDetailsPage() {
               ) || 0
 
               const categoryChange = categoryTotal - categoryDefault
-              const hasChanges = category.subcategories?.some(
-                (sub) => plan.changes[sub.id] !== undefined
-              )
 
               return (
                 <div key={category.id} className="bg-white rounded-2xl shadow-lg p-6">

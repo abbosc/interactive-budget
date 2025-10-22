@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Info, Download, Send, ChevronRight } from 'lucide-react'
+import { Info, Send, ChevronRight } from 'lucide-react'
 import { Button } from '../../../components/ui/Button'
 import { NoUiSlider } from '../../../components/ui/NoUiSlider'
 import { UserInfoDialog } from './UserInfoDialog'
