@@ -367,8 +367,15 @@
 }
 
 .russian-spending__sub {
-  padding: 40px 0;
+  padding: 40px 24px;
+  margin: 0 -24px;
   border-bottom: 2px solid #e0e0e0;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.russian-spending__sub:hover {
+  background-color: #f5f5f5;
 }
 
 .russian-spending__sub:first-child {
@@ -377,7 +384,7 @@
 
 .russian-spending__sub:last-child {
   border-bottom: none;
-  padding-bottom: 0;
+  padding-bottom: 40px;
 }
 
 .russian-spending__title--small {
