@@ -21,12 +21,12 @@ const TASHKENT_DISTRICTS = [
 ]
 
 export function RegionPage() {
-  const { regionId } = useParams<{ regionId: string }>()
+  const { regionId: _regionId } = useParams<{ regionId: string }>()
   const navigate = useNavigate()
   const [selectedDistrict, setSelectedDistrict] = useState<string | null>(null)
   const [hoveredDistrict, setHoveredDistrict] = useState<string | null>(null)
 
-  // Use regionId to display region-specific content (currently showing Tashkent as example)
+  // Use _regionId to display region-specific content (currently showing Tashkent as example)
   // TODO: Add region-specific maps for other regions
 
   const handleDistrictClick = (districtId: string) => {
