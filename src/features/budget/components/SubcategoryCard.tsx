@@ -29,7 +29,7 @@ export function SubcategoryCard({ subcategory }: SubcategoryCardProps) {
             className={cn(
               'text-sm font-medium px-2 py-1 rounded',
               percentChange > 0
-                ? 'bg-green-100 text-green-700'
+                ? 'bg-primary-light/20 text-primary-dark'
                 : 'bg-red-100 text-red-700'
             )}
           >

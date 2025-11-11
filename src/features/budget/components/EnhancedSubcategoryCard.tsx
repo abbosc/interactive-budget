@@ -31,10 +31,10 @@ export function EnhancedSubcategoryCard({
   const isIncreased = percentChange > 0
 
   const getStatusIcon = () => {
-    if (Math.abs(percentChange) < 1) return <CheckCircle className="w-4 h-4 text-green-500" />
+    if (Math.abs(percentChange) < 1) return <CheckCircle className="w-4 h-4 text-primary" />
     if (Math.abs(percentChange) > 8) return <AlertCircle className="w-4 h-4 text-amber-500" />
-    if (isIncreased) return <TrendingUp className="w-4 h-4 text-green-500" />
-    return <TrendingDown className="w-4 h-4 text-emerald-500" />
+    if (isIncreased) return <TrendingUp className="w-4 h-4 text-primary" />
+    return <TrendingDown className="w-4 h-4 text-primary-light" />
   }
 
   return (
@@ -77,7 +77,7 @@ export function EnhancedSubcategoryCard({
                 animate-pulse-slow
                 ${
                   isIncreased
-                    ? 'bg-gradient-to-r from-green-100 to-green-50 text-green-700 border border-green-200'
+                    ? 'bg-gradient-to-r from-primary-light/20 to-primary-light/10 text-primary-dark border border-primary-light/30'
                     : 'bg-gradient-to-r from-red-100 to-red-50 text-red-700 border border-red-200'
                 }
               `}
@@ -97,7 +97,7 @@ export function EnhancedSubcategoryCard({
                 <AnimatedNumber value={currentValue} formatter={formatMln} />
               </div>
               {isChanged && (
-                <div className={`text-xs ${isIncreased ? 'text-green-600' : 'text-red-600'}`}>
+                <div className={`text-xs ${isIncreased ? 'text-primary' : 'text-red-600'}`}>
                   {isIncreased ? '+' : ''}
                   {formatMln(currentValue - subcategory.default_value)} change
                 </div>

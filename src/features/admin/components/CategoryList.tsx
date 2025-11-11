@@ -27,7 +27,7 @@ export function CategoryList() {
   const updateSubcategory = useUpdateSubcategory()
   const deleteSubcategory = useDeleteSubcategory()
 
-  const [editingCategory, setEditingCategory] = useState<Category | null>(null)
+  const [editingCategoryId, setEditingCategoryId] = useState<string | null>(null)
   const [showCategoryForm, setShowCategoryForm] = useState(false)
   const [editingSubcategory, setEditingSubcategory] = useState<{
     categoryId: string
@@ -44,12 +44,12 @@ export function CategoryList() {
   }
 
   const handleUpdateCategory = (data: Omit<Category, 'id' | 'created_at'>) => {
-    if (editingCategory) {
+    if (editingCategoryId) {
       updateCategory.mutate(
-        { ...data, id: editingCategory.id },
+        { ...data, id: editingCategoryId },
         {
           onSuccess: () => {
-            setEditingCategory(null)
+            setEditingCategoryId(null)
           },
         }
       )
@@ -113,35 +113,6 @@ export function CategoryList() {
         </div>
       )}
 
-      {editingCategory && (
-        <div className="bg-white p-6 rounded-lg border border-slate-200">
-          <h3 className="text-lg font-medium mb-4">Edit Category</h3>
-          <CategoryForm
-            category={editingCategory}
-            onSubmit={handleUpdateCategory}
-            onCancel={() => setEditingCategory(null)}
-          />
-        </div>
-      )}
-
-      {editingSubcategory && (
-        <div className="bg-white p-6 rounded-lg border border-slate-200">
-          <h3 className="text-lg font-medium mb-4">
-            {editingSubcategory.subcategory ? 'Edit' : 'Create'} Subcategory
-          </h3>
-          <SubcategoryForm
-            categoryId={editingSubcategory.categoryId}
-            subcategory={editingSubcategory.subcategory}
-            onSubmit={
-              editingSubcategory.subcategory
-                ? handleUpdateSubcategory
-                : handleCreateSubcategory
-            }
-            onCancel={() => setEditingSubcategory(null)}
-          />
-        </div>
-      )}
-
       <div className="space-y-4">
         {categories?.map((category) => (
           <div
@@ -166,7 +137,7 @@ export function CategoryList() {
                 <Button
                   size="sm"
                   variant="outline"
-                  onClick={() => setEditingCategory(category)}
+                  onClick={() => setEditingCategoryId(editingCategoryId === category.id ? null : category.id)}
                 >
                   <Pencil className="w-4 h-4" />
                 </Button>
@@ -180,6 +151,17 @@ export function CategoryList() {
               </div>
             </div>
 
+            {editingCategoryId === category.id && (
+              <div className="mb-4 p-4 bg-slate-50 rounded-lg border border-slate-200">
+                <h4 className="text-md font-medium mb-3">Edit Category</h4>
+                <CategoryForm
+                  category={category}
+                  onSubmit={handleUpdateCategory}
+                  onCancel={() => setEditingCategoryId(null)}
+                />
+              </div>
+            )}
+
             <div className="space-y-2">
               <div className="flex justify-between items-center">
                 <p className="text-sm font-medium text-slate-700">
@@ -189,13 +171,28 @@ export function CategoryList() {
                   size="sm"
                   variant="ghost"
                   onClick={() =>
-                    setEditingSubcategory({ categoryId: category.id })
+                    setEditingSubcategory(
+                      editingSubcategory?.categoryId === category.id && !editingSubcategory.subcategory
+                        ? null
+                        : { categoryId: category.id }
+                    )
                   }
                 >
                   <Plus className="w-4 h-4 mr-1" />
                   Add Subcategory
                 </Button>
               </div>
+
+              {editingSubcategory?.categoryId === category.id && !editingSubcategory.subcategory && (
+                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200 mb-2">
+                  <h5 className="text-sm font-medium mb-3">Create Subcategory</h5>
+                  <SubcategoryForm
+                    categoryId={category.id}
+                    onSubmit={handleCreateSubcategory}
+                    onCancel={() => setEditingSubcategory(null)}
+                  />
+                </div>
+              )}
 
               {category.subcategories && category.subcategories.length > 0 ? (
                 <div className="space-y-2">
@@ -225,10 +222,14 @@ export function CategoryList() {
                             size="sm"
                             variant="outline"
                             onClick={() =>
-                              setEditingSubcategory({
-                                categoryId: category.id,
-                                subcategory: sub,
-                              })
+                              setEditingSubcategory(
+                                editingSubcategory?.subcategory?.id === sub.id
+                                  ? null
+                                  : {
+                                      categoryId: category.id,
+                                      subcategory: sub,
+                                    }
+                              )
                             }
                           >
                             <Pencil className="w-3 h-3" />
@@ -242,6 +243,17 @@ export function CategoryList() {
                           </Button>
                         </div>
                       </div>
+                      {editingSubcategory?.subcategory?.id === sub.id && (
+                        <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                          <h5 className="text-sm font-medium mb-3">Edit Subcategory</h5>
+                          <SubcategoryForm
+                            categoryId={category.id}
+                            subcategory={sub}
+                            onSubmit={handleUpdateSubcategory}
+                            onCancel={() => setEditingSubcategory(null)}
+                          />
+                        </div>
+                      )}
                       {impactEditorOpen === sub.id && (
                         <SubcategoryImpactEditor
                           subcategoryId={sub.id}

@@ -41,7 +41,7 @@ export function PlanCard({ plan }: PlanCardProps) {
   return (
     <Link
       to={`/plans/${plan.id}`}
-      className="block bg-white p-6 rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-all hover:border-green-400 cursor-pointer"
+      className="block bg-white p-6 rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-all hover:border-primary cursor-pointer"
     >
       <div className="flex justify-between items-start mb-4">
         <div className="flex items-center gap-2 text-sm text-slate-500">
@@ -56,7 +56,7 @@ export function PlanCard({ plan }: PlanCardProps) {
               'px-3 py-1 rounded-full text-sm font-medium',
               isDeficit
                 ? 'bg-red-100 text-red-700'
-                : 'bg-green-100 text-green-700'
+                : 'bg-primary-light/20 text-primary-dark'
             )}
           >
             {isDeficit ? (
@@ -120,7 +120,7 @@ export function PlanCard({ plan }: PlanCardProps) {
           <p
             className={cn(
               'font-semibold',
-              isDeficit ? 'text-red-600' : 'text-green-600'
+              isDeficit ? 'text-red-600' : 'text-primary'
             )}
           >
             {formatMln(plan.deficit)}

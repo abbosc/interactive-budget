@@ -1,49 +1,9 @@
-import { useEffect, useRef, useCallback, memo } from 'react'
+import { useEffect, useRef, memo } from 'react'
 import noUiSlider from 'nouislider'
 import { formatNumber } from '../../lib/formatters'
 import './NoUiSlider.css'
 
 type NoUiSliderTarget = noUiSlider.noUiSlider
-
-// Custom throttle function with leading edge (fires immediately, then throttles)
-function throttle<T extends (...args: any[]) => void>(
-  func: T,
-  wait: number
-): (...args: Parameters<T>) => void {
-  let timeout: number | null = null
-  let lastRan: number | null = null
-
-  return function executedFunction(...args: Parameters<T>) {
-    const now = Date.now()
-
-    if (lastRan === null) {
-      // First call - execute immediately
-      func(...args)
-      lastRan = now
-    } else {
-      // Clear existing timeout
-      if (timeout) {
-        window.clearTimeout(timeout)
-      }
-
-      // Calculate time since last execution
-      const timeSinceLastRun = now - lastRan
-
-      if (timeSinceLastRun >= wait) {
-        // Enough time has passed - execute immediately
-        func(...args)
-        lastRan = now
-      } else {
-        // Schedule execution for later
-        timeout = window.setTimeout(() => {
-          func(...args)
-          lastRan = Date.now()
-          timeout = null
-        }, wait - timeSinceLastRun)
-      }
-    }
-  }
-}
 
 interface NoUiSliderProps {
   min: number
@@ -51,6 +11,7 @@ interface NoUiSliderProps {
   value: number
   defaultValue: number
   onChange: (value: number) => void
+  onUpdate?: (value: number) => void
   color?: string
   step?: number
 }
@@ -61,25 +22,21 @@ export const NoUiSlider = memo(function NoUiSlider({
   value,
   defaultValue,
   onChange,
+  onUpdate,
   step = 1,
 }: NoUiSliderProps) {
   const sliderRef = useRef<HTMLDivElement>(null)
   const sliderInstanceRef = useRef<NoUiSliderTarget | null>(null)
-  const rafRef = useRef<number | null>(null)
   const onChangeRef = useRef(onChange)
+  const onUpdateRef = useRef(onUpdate)
+  const tooltipRef = useRef<Element | null>(null)
+  const connectDivRef = useRef<HTMLElement | null>(null)
 
-  // Keep the ref updated with the latest onChange callback
+  // Keep the refs updated with the latest callbacks
   useEffect(() => {
     onChangeRef.current = onChange
-  }, [onChange])
-
-  // Create throttled version of onChange for slide events (150ms throttle for smoother performance)
-  const throttledOnChange = useCallback(
-    throttle((value: number) => {
-      onChangeRef.current?.(value)
-    }, 150),
-    []
-  )
+    onUpdateRef.current = onUpdate
+  }, [onChange, onUpdate])
 
   // Format change amount (difference from default)
   const formatChange = (val: number) => {
@@ -114,27 +71,19 @@ export const NoUiSlider = memo(function NoUiSlider({
 
     sliderInstanceRef.current = slider as unknown as NoUiSliderTarget
 
-    // Handle value changes with smooth updates
+    // Cache tooltip element reference after slider creation
+    tooltipRef.current = sliderRef.current.querySelector('.noUi-tooltip')
+
+    // Handle value changes - only visual updates, no state changes
     slider.on('update', (values, handle) => {
       const numValue = Number(values[handle])
-
-      // Use requestAnimationFrame for smooth visual updates
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current)
-      }
-
-      rafRef.current = requestAnimationFrame(() => {
-        updateConnectBar(numValue)
-      })
+      updateConnectBar(numValue)
+      // Optional callback for visual feedback (does not update global state)
+      onUpdateRef.current?.(numValue)
     })
 
-    // Handle slide event with throttled onChange (reduces state updates during drag)
-    slider.on('slide', (values, handle) => {
-      const numValue = Number(values[handle])
-      throttledOnChange(numValue)
-    })
-
-    // Handle change event with immediate onChange (accurate final value on release)
+    // Handle change event - only fires when user releases slider
+    // This is where we update the global state
     slider.on('change', (values, handle) => {
       const numValue = Number(values[handle])
       onChangeRef.current?.(numValue)
@@ -145,14 +94,11 @@ export const NoUiSlider = memo(function NoUiSlider({
 
     // Cleanup
     return () => {
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current)
-      }
       slider.destroy()
     }
   }, []) // Only run on mount
 
-  // Function to update custom connect bar (optimized to reuse DOM elements)
+  // Function to update custom connect bar (optimized with CSS custom properties)
   const updateConnectBar = (currentValue: number) => {
     if (!sliderRef.current) return
 
@@ -163,17 +109,23 @@ export const NoUiSlider = memo(function NoUiSlider({
     const isNegative = currentValue < defaultValue
     const isAtDefault = Math.abs(currentValue - defaultValue) <= step / 2
 
-    // Update tooltip color
-    const tooltip = sliderRef.current.querySelector('.noUi-tooltip')
-    if (tooltip) {
-      tooltip.classList.remove('positive', 'negative')
-      if (!isAtDefault) {
-        tooltip.classList.add(isNegative ? 'negative' : 'positive')
+    // Update tooltip color using cached reference
+    if (tooltipRef.current) {
+      const tooltip = tooltipRef.current as HTMLElement
+      // Use dataset attribute instead of classList for better performance
+      if (isAtDefault) {
+        tooltip.dataset.state = 'default'
+      } else {
+        tooltip.dataset.state = isNegative ? 'negative' : 'positive'
       }
     }
 
-    // Get or create connect bar element
-    let connectDiv = sliderRef.current.querySelector('.custom-connect') as HTMLElement
+    // Get or create connect bar element (cached)
+    if (!connectDivRef.current) {
+      connectDivRef.current = sliderRef.current.querySelector('.custom-connect') as HTMLElement
+    }
+
+    let connectDiv = connectDivRef.current
 
     if (!isAtDefault) {
       // Create element if it doesn't exist
@@ -187,20 +139,22 @@ export const NoUiSlider = memo(function NoUiSlider({
           border-radius: 3px;
           z-index: 0;
           pointer-events: none;
+          will-change: left, width, background-color;
         `
         const base = sliderRef.current.querySelector('.noUi-base')
         if (base) {
           base.appendChild(connectDiv)
+          connectDivRef.current = connectDiv
         }
       }
 
-      // Update position and size using CSS properties
+      // Update position and size using style properties (batched by browser)
       const left = isNegative ? currentPercent : defaultPercent
       const width = Math.abs(currentPercent - defaultPercent)
 
       connectDiv.style.left = `${left}%`
       connectDiv.style.width = `${width}%`
-      connectDiv.style.background = isNegative ? '#ff4444' : '#4CAF50'
+      connectDiv.style.backgroundColor = isNegative ? '#ff4444' : '#4CAF50'
       connectDiv.style.display = 'block'
     } else if (connectDiv) {
       // Hide instead of removing
@@ -234,14 +188,13 @@ export const NoUiSlider = memo(function NoUiSlider({
           font-weight: 600;
           padding: 8px 12px;
           font-size: 13px;
-          transition: background-color 0.2s ease;
         }
 
-        .spending-slider-wrapper .noUi-tooltip.positive {
+        .spending-slider-wrapper .noUi-tooltip[data-state="positive"] {
           background: #4CAF50;
         }
 
-        .spending-slider-wrapper .noUi-tooltip.negative {
+        .spending-slider-wrapper .noUi-tooltip[data-state="negative"] {
           background: #ff4444;
         }
       `}</style>

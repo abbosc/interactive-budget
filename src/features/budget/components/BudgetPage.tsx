@@ -46,16 +46,22 @@ export function BudgetPage() {
 
     const deficit = config.total_income - totalExpenses
 
+    // Round all numeric values to integers to avoid floating point precision issues
+    const roundedChanges: Record<string, number> = {}
+    Object.keys(changes).forEach(key => {
+      roundedChanges[key] = Math.round(changes[key])
+    })
+
     saveBudgetPlan.mutate(
       {
         budget_config_id: config.id,
         user_name: userInfo.name,
         user_age: userInfo.age,
         user_occupation: userInfo.occupation,
-        changes,
-        total_income: config.total_income,
-        total_expenses: totalExpenses,
-        deficit,
+        changes: roundedChanges,
+        total_income: Math.round(config.total_income),
+        total_expenses: Math.round(totalExpenses),
+        deficit: Math.round(deficit),
       },
       {
         onSuccess: () => {

@@ -47,7 +47,7 @@ export function PlanDetailsPage() {
         <div className="text-white text-xl">Xatolik yuz berdi</div>
         <button
           onClick={() => navigate('/plans')}
-          className="mt-4 px-4 py-2 bg-white text-green-600 rounded-lg"
+          className="mt-4 px-4 py-2 bg-white text-primary rounded-lg"
         >
           Orqaga qaytish
         </button>
@@ -237,7 +237,7 @@ export function PlanDetailsPage() {
                       {Math.abs(categoryChange) > 1000 && (
                         <div
                           className={`text-sm font-semibold mt-1 ${
-                            categoryChange >= 0 ? 'text-green-600' : 'text-red-600'
+                            categoryChange >= 0 ? 'text-primary' : 'text-red-600'
                           }`}
                         >
                           {categoryChange > 0 ? '+' : ''}
@@ -249,7 +249,7 @@ export function PlanDetailsPage() {
 
                   {/* Subcategories Table */}
                   {category.subcategories && category.subcategories.length > 0 && (
-                    <div className="overflow-hidden rounded-lg border border-slate-200">
+                    <div className="overflow-x-auto rounded-lg border border-slate-200">
                       <table className="w-full">
                         <thead className="bg-slate-50">
                           <tr>
@@ -280,19 +280,19 @@ export function PlanDetailsPage() {
                             return (
                               <Fragment key={subcategory.id}>
                                 <tr
-                                  className={hasChange ? 'bg-green-50' : ''}
+                                  className={hasChange ? 'bg-primary-light/10' : ''}
                                 >
-                                  <td className="px-6 py-4 whitespace-nowrap">
+                                  <td className="px-6 py-4">
                                     <div className="flex items-center">
                                       <span
-                                        className="w-8 h-8 rounded-full flex items-center justify-center text-sm mr-3"
+                                        className="w-8 h-8 rounded-full flex items-center justify-center text-sm mr-3 flex-shrink-0"
                                         style={{
                                           color: category.color,
                                           fontFamily: 'FontAwesome',
                                         }}
                                         dangerouslySetInnerHTML={{ __html: category.icon }}
                                       />
-                                      <span className="text-sm font-medium text-slate-900">
+                                      <span className="text-sm font-medium text-slate-900 break-words">
                                         {subcategory.name}
                                       </span>
                                     </div>
@@ -301,11 +301,7 @@ export function PlanDetailsPage() {
                                     {formatMillions(subcategory.default_value)} mlrd
                                   </td>
                                   <td className="px-6 py-4 whitespace-nowrap text-right">
-                                    <span
-                                      className={`text-sm font-semibold ${
-                                        hasChange ? 'text-green-700' : 'text-slate-900'
-                                      }`}
-                                    >
+                                    <span className="text-sm font-semibold text-slate-900">
                                       {formatMillions(currentValue)} mlrd
                                     </span>
                                   </td>
@@ -314,8 +310,8 @@ export function PlanDetailsPage() {
                                       <span
                                         className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold ${
                                           change >= 0
-                                            ? 'bg-green-100 text-green-700'
-                                            : 'bg-red-100 text-red-700'
+                                            ? 'bg-green-100 text-green-800'
+                                            : 'bg-red-100 text-red-800'
                                         }`}
                                       >
                                         {change > 0 ? '+' : ''}
@@ -327,7 +323,7 @@ export function PlanDetailsPage() {
                                   </td>
                                 </tr>
                                 {activeImpact && (
-                                  <tr key={`${subcategory.id}-impact`} className={hasChange ? 'bg-green-50' : ''}>
+                                  <tr key={`${subcategory.id}-impact`} className={hasChange ? 'bg-primary-light/10' : ''}>
                                     <td colSpan={4} className="px-6 py-4">
                                       <div
                                         style={{

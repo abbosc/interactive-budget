@@ -3,7 +3,7 @@
 /* Base Page Styling */
 .russian-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+  background: #08222d;
   font-family: 'OpenSans', Arial, Helvetica, sans-serif;
   color: #fff;
 }
@@ -17,7 +17,7 @@
 /* Header */
 .russian-header {
   padding: 22px 0 42px 0;
-  background: #22c55e;
+  background: #1f2c40;
 }
 
 .russian-header__content {
@@ -42,7 +42,7 @@
 /* Top Budget Summary Boxes */
 .russian-total-budget {
   padding: 20px 0;
-  background: #16a34a;
+  background: #1f2c40;
 }
 
 .russian-total-budget__content {
@@ -70,15 +70,15 @@
 }
 
 .russian-total-budget__box--income {
-  background: linear-gradient(135deg, #ff8243 0%, #ff6934 100%);
+  background: #d33b52;
 }
 
 .russian-total-budget__box--expenses {
-  background: linear-gradient(135deg, #ff6934 0%, #f44336 100%);
+  background: #d33b52;
 }
 
 .russian-total-budget__box--deficit {
-  background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+  background: #d33b52;
 }
 
 .russian-total-budget__info-btn {
@@ -162,8 +162,8 @@
 }
 
 .russian-spending--expanded {
-  border: 3px solid #22c55e;
-  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.3);
+  border: 3px solid #35bfdc;
+  box-shadow: 0 8px 24px rgba(53, 191, 220, 0.3);
   transform: translateY(-4px);
 }
 
@@ -248,13 +248,13 @@
 .russian-percentages-view__percentage {
   font-size: 13px;
   font-weight: 700;
-  color: #fff;
+  color: #1e293b;
 }
 
 .russian-percentages-view__delta {
   font-size: 11px;
   font-weight: 600;
-  color: #fff;
+  color: #1e293b;
 }
 
 /* Budget Description */
@@ -337,8 +337,8 @@
   padding: 20px 24px;
   margin: -32px -32px 32px -32px;
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-bottom: 3px solid #22c55e;
-  border-left: 6px solid #22c55e;
+  border-bottom: 3px solid #35bfdc;
+  border-left: 6px solid #35bfdc;
   border-radius: 16px 16px 0 0;
 }
 
@@ -451,13 +451,13 @@
 }
 
 .russian-actions__button--primary {
-  background: linear-gradient(135deg, #ff8243 0%, #ff6934 100%);
+  background: #d33b52;
   color: #fff;
 }
 
 .russian-actions__button--primary:hover:not(:disabled) {
-  background: linear-gradient(135deg, #ff9055 0%, #ff7746 100%);
-  box-shadow: 0 6px 16px rgba(255, 105, 52, 0.3);
+  background: #e04560;
+  box-shadow: 0 6px 16px rgba(211, 59, 82, 0.3);
   transform: translateY(-2px);
 }
 
@@ -473,13 +473,13 @@
 }
 
 .russian-actions__button--reset {
-  background: #f44336;
+  background: #d33b52;
   color: #fff;
 }
 
 .russian-actions__button--reset:hover {
-  background: #d32f2f;
-  box-shadow: 0 6px 16px rgba(244, 67, 54, 0.3);
+  background: #e04560;
+  box-shadow: 0 6px 16px rgba(211, 59, 82, 0.3);
   transform: translateY(-2px);
 }
 

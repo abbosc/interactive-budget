@@ -36,7 +36,7 @@ export function EnhancedBudgetSummary({
     if (deficit < 0) return { label: 'Over Budget', color: 'text-red-600', icon: AlertTriangle }
     if (utilizationRate > 95) return { label: 'Critical', color: 'text-amber-600', icon: AlertTriangle }
     if (utilizationRate > 80) return { label: 'Warning', color: 'text-yellow-600', icon: AlertTriangle }
-    return { label: 'Healthy', color: 'text-green-600', icon: CheckCircle2 }
+    return { label: 'Healthy', color: 'text-primary', icon: CheckCircle2 }
   }
 
   const status = getHealthStatus()
@@ -68,20 +68,20 @@ export function EnhancedBudgetSummary({
 
           <div>
             <p className="text-slate-400 text-sm mb-1">Total Expenses</p>
-            <p className="text-3xl font-bold text-green-400">
+            <p className="text-3xl font-bold text-primary-light">
               <AnimatedNumber value={totalExpenses} formatter={formatMln} />
             </p>
             <ProgressBar
               value={totalExpenses}
               max={totalIncome}
-              color="#4ade80"
+              color="#35bfdc"
               height="h-2"
             />
           </div>
 
           <div className="pt-4 border-t border-slate-700">
             <p className="text-slate-400 text-sm mb-1">Remaining Budget</p>
-            <p className={`text-3xl font-bold ${deficit >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+            <p className={`text-3xl font-bold ${deficit >= 0 ? 'text-primary-light' : 'text-red-400'}`}>
               <AnimatedNumber value={deficit} formatter={formatMln} />
             </p>
           </div>
@@ -98,7 +98,7 @@ export function EnhancedBudgetSummary({
             current={totalExpenses}
             total={totalIncome}
             title={`${utilizationRate.toFixed(1)}% Used`}
-            color="#22c55e"
+            color="#197790"
           />
         </div>
       </div>
@@ -136,14 +136,14 @@ export function EnhancedBudgetSummary({
 
       {/* Changes Summary */}
       {changesCount > 0 && (
-        <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-xl border border-green-200">
-          <div className="flex items-center gap-2 text-green-700">
+        <div className="bg-gradient-to-r from-primary-light/10 to-primary-light/5 p-4 rounded-xl border border-primary-light/30">
+          <div className="flex items-center gap-2 text-primary-dark">
             <TrendingDown className="w-5 h-5" />
             <span className="text-sm font-semibold">
               {changesCount} adjustment{changesCount !== 1 ? 's' : ''} made
             </span>
           </div>
-          <p className="text-xs text-green-600 mt-1">
+          <p className="text-xs text-primary mt-1">
             Don't forget to save your budget plan
           </p>
         </div>

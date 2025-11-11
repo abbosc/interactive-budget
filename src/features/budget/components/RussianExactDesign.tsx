@@ -1,5 +1,5 @@
 // Budget page with row-based category expansion
-import { useState, useMemo, Fragment } from 'react'
+import { useState, useMemo, Fragment, memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Info, ChevronDown, TrendingUp, TrendingDown } from 'lucide-react'
 import { NoUiSlider } from '../../../components/ui/NoUiSlider'
@@ -9,8 +9,132 @@ import { useSaveBudgetPlan } from '../hooks/useSaveBudgetPlan'
 import { useBudgetStore } from '../../../stores/budgetStore'
 import { formatNumber } from '../../../lib/formatters'
 import { useGridColumns } from '../../../lib/hooks/useMediaQuery'
-import type { Impact, ThresholdType } from '../../../types/budget'
+import type { Impact, ThresholdType, Category } from '../../../types/budget'
 import './RussianStyles.css'
+
+// Helper to format millions
+const formatMillions = (value: number) => {
+  const millions = value / 1_000_000
+  return formatNumber(millions, 1)
+}
+
+// Memoized CategoryCard component to prevent unnecessary re-renders
+interface CategoryCardProps {
+  category: Category
+  changes: Record<string, number>
+  expandedCategoryId: string | null
+  totalExpenses: number
+  toggleCategory: (id: string) => void
+}
+
+const CategoryCard = memo(({ category, changes, expandedCategoryId, totalExpenses, toggleCategory }: CategoryCardProps) => {
+  const categoryTotal = category.subcategories?.reduce((sum, sub) => {
+    const value = changes[sub.id] ?? sub.default_value
+    return sum + value
+  }, 0) || 0
+
+  const categoryDefault = category.subcategories?.reduce(
+    (sum, sub) => sum + sub.default_value,
+    0
+  ) || 0
+
+  const categoryChange = categoryTotal - categoryDefault
+  const percentage = totalExpenses > 0 ? (categoryTotal / totalExpenses) * 100 : 0
+  const isExpanded = category.id === expandedCategoryId
+
+  return (
+    <div key={category.id} className={`russian-spending ${isExpanded ? 'russian-spending--expanded' : ''}`}>
+      <div className="russian-spending__inner">
+        {/* Category Header */}
+        <div className="russian-spending__group">
+          <div className="russian-spending__title">
+            <span
+              className="russian-spending__icon"
+              style={{
+                backgroundColor: category.color,
+                fontFamily: 'FontAwesome',
+              }}
+              dangerouslySetInnerHTML={{ __html: category.icon }}
+            />
+            <span className="russian-spending__title-text">{category.name}</span>
+          </div>
+
+          <div className="russian-spending__sum">
+            {formatMillions(categoryTotal)} <span className="russian-spending__currency">mlrd so'm</span>
+          </div>
+
+          {/* Percentage Progress Bar */}
+          <div className="russian-percentages-view">
+            <div
+              className="russian-percentages-view__bar"
+              style={{
+                backgroundColor: `${category.color}4f`,
+              }}
+            >
+              <span
+                className="russian-percentages-view__fill"
+                style={{
+                  width: `${Math.min(percentage, 100)}%`,
+                  backgroundColor: category.color,
+                }}
+              >
+                <span className="russian-percentages-view__percentage">
+                  {formatNumber(percentage, 1)}%
+                </span>
+                <span className="russian-percentages-view__delta">
+                  {Math.abs(categoryChange) > 1000 && (
+                    categoryChange > 0 ? `+${formatMillions(categoryChange)}` : `${formatMillions(categoryChange)}`
+                  )}
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Budget Info - Always reserve space, show text only when there's a change */}
+        <div className="russian-spending__group russian-spending__sum-description-block">
+          {Math.abs(categoryChange) > 1000 && (
+            <div className="russian-spending__sum-description">
+              <div className="russian-spending__sum-description-col">
+                <span className="russian-spending__sum-description-title">
+                  Tasdiqlangan byudjetda:
+                </span>
+                <span>{formatMillions(categoryDefault)} mlrd so'm</span>
+              </div>
+              <div className="russian-spending__sum-description-col">
+                <span className="russian-spending__sum-description-title">
+                  Kiritilgan o'zgarishlar:
+                </span>
+                <span>
+                  {categoryChange > 0 ? '+' : ''}
+                  {formatMillions(categoryChange)} mlrd so'm
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Expand Button */}
+        <div className="russian-spending__group russian-spending__button-block">
+          <button
+            className="russian-button"
+            onClick={() => toggleCategory(category.id)}
+          >
+            <ChevronDown
+              className={`russian-button__icon ${isExpanded ? 'russian-button__icon--rotated' : ''}`}
+              size={20}
+            />
+            <span className="russian-button__title">
+              Batafsil ma'lumot olish va o'zgartirish
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+})
+
+CategoryCard.displayName = 'CategoryCard'
 
 export function RussianExactDesign() {
   const navigate = useNavigate()
@@ -64,16 +188,22 @@ export function RussianExactDesign() {
 
     const deficit = config.total_income - totalExpenses
 
+    // Round all numeric values to integers to avoid floating point precision issues
+    const roundedChanges: Record<string, number> = {}
+    Object.keys(changes).forEach(key => {
+      roundedChanges[key] = Math.round(changes[key])
+    })
+
     saveBudgetPlan.mutate(
       {
         budget_config_id: config.id,
         user_name: userInfo.name,
         user_age: userInfo.age,
         user_occupation: userInfo.occupation,
-        changes,
-        total_income: config.total_income,
-        total_expenses: totalExpenses,
-        deficit,
+        changes: roundedChanges,
+        total_income: Math.round(config.total_income),
+        total_expenses: Math.round(totalExpenses),
+        deficit: Math.round(deficit),
       },
       {
         onSuccess: () => {
@@ -150,7 +280,7 @@ export function RussianExactDesign() {
         <div className="russian-header__content">
           <div className="russian-header__title">
             <div className="russian-header__main-title">Fuqarolar uchun interaktiv byudjet</div>
-            <div className="russian-header__subtitle">Andijon viloyati Andijon shahri shahar okrugi</div>
+            <div className="russian-header__subtitle">Toshkent shahri</div>
           </div>
         </div>
       </header>
@@ -198,7 +328,7 @@ export function RussianExactDesign() {
       {/* Main Content */}
       <div className="russian-content">
         <div className="russian-content__wrapper">
-          <h1 className="russian-content__title">O'zgartirish Xarajatlar</h1>
+          <h1 className="russian-content__title">O'zgartirish</h1>
 
           {/* Category Cards Grid */}
           <div className="russian-spending-layout">
@@ -209,112 +339,16 @@ export function RussianExactDesign() {
               return (
                 <Fragment key={`row-${rowIndex}`}>
                   {/* Render all category cards in this row */}
-                  {row.map((category) => {
-                    const categoryTotal = category.subcategories?.reduce((sum, sub) => {
-                      const value = changes[sub.id] ?? sub.default_value
-                      return sum + value
-                    }, 0) || 0
-
-                    const categoryDefault = category.subcategories?.reduce(
-                      (sum, sub) => sum + sub.default_value,
-                      0
-                    ) || 0
-
-                    const categoryChange = categoryTotal - categoryDefault
-                    const percentage = totalExpenses > 0 ? (categoryTotal / totalExpenses) * 100 : 0
-                    const isExpanded = category.id === expandedCategoryId
-
-                    return (
-                      <div key={category.id} className={`russian-spending ${isExpanded ? 'russian-spending--expanded' : ''}`}>
-                        <div className="russian-spending__inner">
-                          {/* Category Header */}
-                          <div className="russian-spending__group">
-                            <div className="russian-spending__title">
-                              <span
-                                className="russian-spending__icon"
-                                style={{
-                                  backgroundColor: category.color,
-                                  fontFamily: 'FontAwesome',
-                                }}
-                                dangerouslySetInnerHTML={{ __html: category.icon }}
-                              />
-                              <span className="russian-spending__title-text">{category.name}</span>
-                            </div>
-
-                            <div className="russian-spending__sum">
-                              {formatMillions(categoryTotal)} <span className="russian-spending__currency">mlrd so'm</span>
-                            </div>
-
-                            {/* Percentage Progress Bar */}
-                            <div className="russian-percentages-view">
-                              <div
-                                className="russian-percentages-view__bar"
-                                style={{
-                                  backgroundColor: `${category.color}4f`,
-                                }}
-                              >
-                                <span
-                                  className="russian-percentages-view__fill"
-                                  style={{
-                                    width: `${Math.min(percentage, 100)}%`,
-                                    backgroundColor: category.color,
-                                  }}
-                                >
-                                  <span className="russian-percentages-view__percentage">
-                                    {formatNumber(percentage, 1)}%
-                                  </span>
-                                  <span className="russian-percentages-view__delta">
-                                    {Math.abs(categoryChange) > 1000 && (
-                                      categoryChange > 0 ? `+${formatMillions(categoryChange)}` : `${formatMillions(categoryChange)}`
-                                    )}
-                                  </span>
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Budget Info - Always reserve space, show text only when there's a change */}
-                          <div className="russian-spending__group russian-spending__sum-description-block">
-                            {Math.abs(categoryChange) > 1000 && (
-                              <div className="russian-spending__sum-description">
-                                <div className="russian-spending__sum-description-col">
-                                  <span className="russian-spending__sum-description-title">
-                                    Tasdiqlangan byudjetda:
-                                  </span>
-                                  <span>{formatMillions(categoryDefault)} mlrd so'm</span>
-                                </div>
-                                <div className="russian-spending__sum-description-col">
-                                  <span className="russian-spending__sum-description-title">
-                                    Kiritilgan o'zgarishlar:
-                                  </span>
-                                  <span>
-                                    {categoryChange > 0 ? '+' : ''}
-                                    {formatMillions(categoryChange)} mlrd so'm
-                                  </span>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-
-                          {/* Expand Button */}
-                          <div className="russian-spending__group russian-spending__button-block">
-                            <button
-                              className="russian-button"
-                              onClick={() => toggleCategory(category.id)}
-                            >
-                              <ChevronDown
-                                className={`russian-button__icon ${isExpanded ? 'russian-button__icon--rotated' : ''}`}
-                                size={20}
-                              />
-                              <span className="russian-button__title">
-                                Batafsil ma'lumot olish va o'zgartirish
-                              </span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    )
-                  })}
+                  {row.map((category) => (
+                    <CategoryCard
+                      key={category.id}
+                      category={category}
+                      changes={changes}
+                      expandedCategoryId={expandedCategoryId}
+                      totalExpenses={totalExpenses}
+                      toggleCategory={toggleCategory}
+                    />
+                  ))}
 
                   {/* Render subcategories panel after complete row if any category in row is expanded */}
                   {expandedCategory && (
@@ -382,6 +416,7 @@ export function RussianExactDesign() {
                                     value={currentValue}
                                     defaultValue={subcategory.default_value}
                                     onChange={(value) => {
+                                      // Only update store when slider is released
                                       const threshold = 1000 // 1000 som threshold
                                       // If value is within threshold from default, consider it as no change
                                       if (Math.abs(value - subcategory.default_value) < threshold) {

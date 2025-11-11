@@ -53,16 +53,22 @@ export function EnhancedBudgetPage() {
 
     const deficit = config.total_income - totalExpenses
 
+    // Round all numeric values to integers to avoid floating point precision issues
+    const roundedChanges: Record<string, number> = {}
+    Object.keys(changes).forEach(key => {
+      roundedChanges[key] = Math.round(changes[key])
+    })
+
     saveBudgetPlan.mutate(
       {
         budget_config_id: config.id,
         user_name: userInfo.name,
         user_age: userInfo.age,
         user_occupation: userInfo.occupation,
-        changes,
-        total_income: config.total_income,
-        total_expenses: totalExpenses,
-        deficit,
+        changes: roundedChanges,
+        total_income: Math.round(config.total_income),
+        total_expenses: Math.round(totalExpenses),
+        deficit: Math.round(deficit),
       },
       {
         onSuccess: () => {
@@ -76,9 +82,9 @@ export function EnhancedBudgetPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-green-50 to-emerald-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-primary-light/10 to-primary/10 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
           <p className="text-lg text-slate-600 font-medium">Loading budget data...</p>
         </div>
       </div>
@@ -87,7 +93,7 @@ export function EnhancedBudgetPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-green-50 to-emerald-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-primary-light/10 to-primary/10 flex items-center justify-center">
         <div className="text-center max-w-md">
           <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Info className="w-8 h-8 text-red-600" />
@@ -106,7 +112,7 @@ export function EnhancedBudgetPage() {
 
   if (!categories || !config) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-green-50 to-emerald-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-primary-light/10 to-primary/10 flex items-center justify-center">
         <div className="text-center max-w-md">
           <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <PieChart className="w-8 h-8 text-slate-600" />
@@ -129,9 +135,9 @@ export function EnhancedBudgetPage() {
   const hasChanges = Object.keys(changes).length > 0
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-green-50 to-emerald-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-primary-light/10 to-primary/10">
       {/* Hero Header */}
-      <div className="bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white">
+      <div className="bg-gradient-to-r from-primary via-primary-dark to-primary-light text-white">
         <div className="max-w-7xl mx-auto px-8 py-12">
           <div className="flex justify-between items-start">
             <div className="flex-1">
@@ -141,7 +147,7 @@ export function EnhancedBudgetPage() {
                 </div>
                 <div>
                   <h1 className="text-4xl font-bold mb-2">Budget Adjustment</h1>
-                  <p className="text-green-100 text-lg">
+                  <p className="text-primary-light/80 text-lg">
                     Fine-tune your budget allocations with precision
                   </p>
                 </div>
@@ -198,7 +204,7 @@ export function EnhancedBudgetPage() {
                 <Button
                   onClick={handleSave}
                   disabled={!hasChanges}
-                  className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white shadow-lg disabled:opacity-50 disabled:cursor-not-allowed h-12 text-base font-semibold"
+                  className="w-full bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white shadow-lg disabled:opacity-50 disabled:cursor-not-allowed h-12 text-base font-semibold"
                 >
                   <Save className="w-5 h-5 mr-2" />
                   Save Budget Plan

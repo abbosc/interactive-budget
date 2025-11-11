@@ -70,7 +70,7 @@ export function EnhancedCategorySection({ category }: EnhancedCategorySectionPro
                     <span className="text-slate-400">•</span>
                     <span
                       className={`text-sm font-bold ${
-                        categoryChange > 0 ? 'text-green-600' : 'text-red-600'
+                        categoryChange > 0 ? 'text-primary' : 'text-red-600'
                       }`}
                     >
                       {categoryChange > 0 ? '+' : ''}

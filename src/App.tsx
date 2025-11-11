@@ -1,6 +1,8 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Toaster } from 'sonner'
+import { HomePage } from './features/home/components/HomePage'
+import { RegionPage } from './features/region/components/RegionPage'
 import { AdminPage } from './features/admin/components/AdminPage'
 import { RussianExactDesign } from './features/budget/components/RussianExactDesign'
 import { PlansPage } from './features/plans/components/PlansPage'
@@ -21,7 +23,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/budget" replace />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/region/:regionId" element={<RegionPage />} />
           <Route path="/budget" element={<RussianExactDesign />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/summary" element={<SummaryPage />} />

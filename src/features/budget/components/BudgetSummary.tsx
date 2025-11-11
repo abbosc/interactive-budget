@@ -47,7 +47,7 @@ export function BudgetSummary({ categories, totalIncome }: BudgetSummaryProps) {
           <span
             className={cn(
               'text-xl font-bold',
-              deficit >= 0 ? 'text-green-600' : 'text-red-600'
+              deficit >= 0 ? 'text-primary' : 'text-red-600'
             )}
           >
             {formatMln(deficit)}

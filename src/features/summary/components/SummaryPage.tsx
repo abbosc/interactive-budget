@@ -75,7 +75,7 @@ export function SummaryPage() {
             title="Total Income"
             value={formatMln(totalIncome)}
             icon={DollarSign}
-            color="#10b981"
+            color="#197790"
             description="Configured budget income"
           />
           <StatCard
@@ -96,7 +96,7 @@ export function SummaryPage() {
             title="Default Deficit"
             value={formatMln(defaultDeficit)}
             icon={defaultDeficit >= 0 ? TrendingUp : TrendingDown}
-            color={defaultDeficit >= 0 ? '#10b981' : '#ef4444'}
+            color={defaultDeficit >= 0 ? '#197790' : '#ef4444'}
             description="Without adjustments"
           />
         </div>
@@ -187,7 +187,7 @@ export function SummaryPage() {
                         <p
                           className={cn(
                             'font-semibold text-sm',
-                            isDeficit ? 'text-red-600' : 'text-green-600'
+                            isDeficit ? 'text-red-600' : 'text-primary'
                           )}
                         >
                           {formatMln(plan.deficit)}
