@@ -409,6 +409,54 @@ export function RussianExactDesign() {
                                   </div>
                                 </div>
 
+                                {/* Impact Message - Column 2 */}
+                                <div className="russian-spending__impact-wrapper">
+                                  {(() => {
+                                    const activeImpact = getActiveImpact(currentValue, subcategory.default_value, subcategory.impacts)
+                                    if (!activeImpact) return null
+
+                                    const isIncrease = activeImpact.threshold_type.startsWith('increase')
+                                    const thresholdLabel = activeImpact.threshold_type === 'increase_7' ? '+7%' :
+                                                          activeImpact.threshold_type === 'increase_3' ? '+3%' :
+                                                          activeImpact.threshold_type === 'decrease_7' ? '-7%' : '-3%'
+
+                                    return (
+                                      <div
+                                        className={`russian-spending__impact ${isIncrease ? 'russian-spending__impact--positive' : 'russian-spending__impact--negative'}`}
+                                        style={{
+                                          padding: '12px 16px',
+                                          borderRadius: '8px',
+                                          backgroundColor: isIncrease ? '#e8f5e9' : '#ffebee',
+                                          border: `1px solid ${isIncrease ? '#4caf50' : '#f44336'}`,
+                                        }}
+                                      >
+                                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                                          {isIncrease ? (
+                                            <TrendingUp size={20} style={{ color: '#4caf50', flexShrink: 0, marginTop: '2px' }} />
+                                          ) : (
+                                            <TrendingDown size={20} style={{ color: '#f44336', flexShrink: 0, marginTop: '2px' }} />
+                                          )}
+                                          <div style={{ flex: 1 }}>
+                                            <div
+                                              style={{
+                                                fontSize: '13px',
+                                                fontWeight: 600,
+                                                color: isIncrease ? '#2e7d32' : '#c62828',
+                                                marginBottom: '4px',
+                                              }}
+                                            >
+                                              {thresholdLabel} natijasi:
+                                            </div>
+                                            <div style={{ fontSize: '14px', color: '#333', lineHeight: '1.5' }}>
+                                              {activeImpact.message}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    )
+                                  })()}
+                                </div>
+
                                 <div className="russian-spending__slider-wrapper">
                                   <NoUiSlider
                                     min={min}
@@ -429,53 +477,6 @@ export function RussianExactDesign() {
                                     step={1}
                                   />
                                 </div>
-
-                                {/* Impact Message */}
-                                {(() => {
-                                  const activeImpact = getActiveImpact(currentValue, subcategory.default_value, subcategory.impacts)
-                                  if (!activeImpact) return null
-
-                                  const isIncrease = activeImpact.threshold_type.startsWith('increase')
-                                  const thresholdLabel = activeImpact.threshold_type === 'increase_7' ? '+7%' :
-                                                        activeImpact.threshold_type === 'increase_3' ? '+3%' :
-                                                        activeImpact.threshold_type === 'decrease_7' ? '-7%' : '-3%'
-
-                                  return (
-                                    <div
-                                      className={`russian-spending__impact ${isIncrease ? 'russian-spending__impact--positive' : 'russian-spending__impact--negative'}`}
-                                      style={{
-                                        padding: '12px 16px',
-                                        marginTop: '16px',
-                                        borderRadius: '8px',
-                                        backgroundColor: isIncrease ? '#e8f5e9' : '#ffebee',
-                                        border: `1px solid ${isIncrease ? '#4caf50' : '#f44336'}`,
-                                      }}
-                                    >
-                                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-                                        {isIncrease ? (
-                                          <TrendingUp size={20} style={{ color: '#4caf50', flexShrink: 0, marginTop: '2px' }} />
-                                        ) : (
-                                          <TrendingDown size={20} style={{ color: '#f44336', flexShrink: 0, marginTop: '2px' }} />
-                                        )}
-                                        <div style={{ flex: 1 }}>
-                                          <div
-                                            style={{
-                                              fontSize: '13px',
-                                              fontWeight: 600,
-                                              color: isIncrease ? '#2e7d32' : '#c62828',
-                                              marginBottom: '4px',
-                                            }}
-                                          >
-                                            {thresholdLabel} natijasi:
-                                          </div>
-                                          <div style={{ fontSize: '14px', color: '#333', lineHeight: '1.5' }}>
-                                            {activeImpact.message}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  )
-                                })()}
                               </div>
                             </li>
                           )
