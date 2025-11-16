@@ -33,7 +33,7 @@ const DISTRICT_NAMES: Record<string, string> = {
 export function InteractiveDistrictMap({ onDistrictClick, onDistrictHover, districtsData }: InteractiveDistrictMapProps) {
   const [svgContent, setSvgContent] = useState<string>('')
   const [mapLoaded, setMapLoaded] = useState(false)
-  const [hoveredDistrict, setHoveredDistrict] = useState<string | null>(null)
+  const [, setHoveredDistrict] = useState<string | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const onDistrictClickRef = useRef(onDistrictClick)
   const onDistrictHoverRef = useRef(onDistrictHover)

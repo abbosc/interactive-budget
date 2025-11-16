@@ -42,8 +42,8 @@ const getDifferenceColor = (difference: number, maxDiff: number, minDiff: number
 export function RegionPage() {
   const { regionId: _regionId } = useParams<{ regionId: string }>()
   const navigate = useNavigate()
-  const [selectedDistrict, setSelectedDistrict] = useState<string | null>(null)
-  const [hoveredDistrict, setHoveredDistrict] = useState<string | null>(null)
+  const [, setSelectedDistrict] = useState<string | null>(null)
+  const [, setHoveredDistrict] = useState<string | null>(null)
   const [activeView, setActiveView] = useState<'districts' | 'sectors'>('districts')
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [showInfoModal, setShowInfoModal] = useState(false)
@@ -126,10 +126,6 @@ export function RegionPage() {
 
   const handleBackClick = () => {
     navigate('/map-page')
-  }
-
-  const getDistrictInfo = (districtId: string) => {
-    return TASHKENT_DISTRICTS.find(d => d.id === districtId)
   }
 
   // Calculate regional totals for Tashkent

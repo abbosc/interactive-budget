@@ -43,8 +43,8 @@ const getDifferenceColor = (difference: number, maxDiff: number, minDiff: number
 
 export function MapPage() {
   const navigate = useNavigate()
-  const [hoveredRegion, setHoveredRegion] = useState<string | null>(null)
-  const [selectedRegion, setSelectedRegion] = useState<string | null>(null)
+  const [, setHoveredRegion] = useState<string | null>(null)
+  const [, setSelectedRegion] = useState<string | null>(null)
   const [activeView, setActiveView] = useState<'regions' | 'sectors'>('regions')
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [showInfoModal, setShowInfoModal] = useState(false)
@@ -120,10 +120,6 @@ export function MapPage() {
   const handleRegionHover = useCallback((regionId: string | null) => {
     setHoveredRegion(regionId)
   }, [])
-
-  const getRegionInfo = (regionId: string) => {
-    return REGIONS.find(r => r.id === regionId)
-  }
 
   // Calculate country-level totals
   const countryTotals = useMemo(() => {

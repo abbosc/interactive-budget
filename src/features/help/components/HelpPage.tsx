@@ -126,7 +126,7 @@ export function HelpPage() {
 
           {/* Steps */}
           <div className="help-steps">
-            {steps.map((step, index) => (
+            {steps.map((step) => (
               <section key={step.id} className="help-step">
                 <div className="help-step__header">
                   <div className="help-step__number">
