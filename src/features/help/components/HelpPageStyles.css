@@ -1,0 +1,434 @@
+/* Import navbar styles */
+@import '../../region/components/RegionPageStyles.css';
+
+/* Help Page Styles */
+
+.help-page {
+  min-height: 100vh;
+  background: #e8f4f7;
+  font-family: 'OpenSans', Arial, Helvetica, sans-serif;
+  zoom: 0.8;
+}
+
+/* Hero Section */
+.help-hero {
+  background: linear-gradient(135deg, #1f2c40 0%, #35bfdc 100%);
+  padding: 60px 20px;
+  text-align: center;
+  color: white;
+}
+
+.help-hero__content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.help-hero__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  margin-bottom: 24px;
+}
+
+.help-hero__title {
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.help-hero__subtitle {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.6;
+  opacity: 0.95;
+}
+
+/* Content Section */
+.help-content {
+  padding: 60px 20px;
+}
+
+.help-content__wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Introduction */
+.help-intro {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 60px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.help-intro__title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1f2c40;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.help-intro__text {
+  font-size: 18px;
+  line-height: 1.8;
+  color: #555;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Steps */
+.help-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.help-step {
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.help-step:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.15);
+}
+
+.help-step__header {
+  background: linear-gradient(135deg, #35bfdc 0%, #28a745 100%);
+  padding: 32px 40px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.help-step__number {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: white;
+  color: #35bfdc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 700;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.help-step__header-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+}
+
+.help-step__icon {
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.help-step__title {
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+.help-step__content {
+  padding: 40px;
+}
+
+.help-step__description {
+  font-size: 18px;
+  line-height: 1.8;
+  color: #333;
+  margin-bottom: 32px;
+}
+
+/* Step Image */
+.help-step__image {
+  position: relative;
+  width: 100%;
+  margin-bottom: 32px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #f5f5f5;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.help-step__image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.help-step__image-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+  color: #999;
+}
+
+.help-step__image-placeholder.hidden {
+  display: none;
+}
+
+.help-step__image-placeholder-icon {
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.help-step__image-placeholder-text {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+/* Tips */
+.help-step__tips {
+  background: #f8f9fa;
+  border-left: 4px solid #35bfdc;
+  border-radius: 12px;
+  padding: 24px 32px;
+}
+
+.help-step__tips-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1f2c40;
+  margin-bottom: 16px;
+}
+
+.help-step__tips-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.help-step__tips-item {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #555;
+  padding: 8px 0;
+  padding-left: 28px;
+  position: relative;
+}
+
+.help-step__tips-item::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #28a745;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+/* Additional Help Section */
+.help-additional {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+.help-additional__card {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.help-additional__title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2c40;
+  margin-bottom: 16px;
+}
+
+.help-additional__text {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 32px;
+}
+
+.help-additional__contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.help-additional__contact {
+  background: #f8f9fa;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-size: 16px;
+  color: #333;
+  text-align: left;
+}
+
+.help-additional__contact strong {
+  color: #35bfdc;
+  margin-right: 8px;
+}
+
+/* Call to Action */
+.help-cta {
+  background: linear-gradient(135deg, #35bfdc 0%, #28a745 100%);
+  border-radius: 24px;
+  padding: 60px 40px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.help-cta__content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.help-cta__title {
+  font-size: 36px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 16px;
+}
+
+.help-cta__text {
+  font-size: 20px;
+  line-height: 1.6;
+  color: white;
+  opacity: 0.95;
+  margin-bottom: 32px;
+}
+
+.help-cta__button {
+  display: inline-block;
+  background: white;
+  color: #35bfdc;
+  text-decoration: none;
+  border: none;
+  border-radius: 12px;
+  padding: 18px 48px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.help-cta__button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  background: #f8f9fa;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .help-hero {
+    padding: 40px 20px;
+  }
+
+  .help-hero__icon {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 16px;
+  }
+
+  .help-hero__title {
+    font-size: 28px;
+  }
+
+  .help-hero__subtitle {
+    font-size: 16px;
+  }
+
+  .help-intro {
+    padding: 24px;
+  }
+
+  .help-intro__title {
+    font-size: 24px;
+  }
+
+  .help-intro__text {
+    font-size: 16px;
+  }
+
+  .help-step__header {
+    flex-direction: column;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .help-step__header-content {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .help-step__number {
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+  }
+
+  .help-step__title {
+    font-size: 22px;
+  }
+
+  .help-step__content {
+    padding: 24px;
+  }
+
+  .help-step__description {
+    font-size: 16px;
+  }
+
+  .help-step__image-placeholder {
+    min-height: 250px;
+  }
+
+  .help-step__tips {
+    padding: 20px;
+  }
+
+  .help-additional__card {
+    padding: 24px;
+  }
+
+  .help-additional__title {
+    font-size: 22px;
+  }
+
+  .help-additional__text {
+    font-size: 16px;
+  }
+
+  .help-cta {
+    padding: 40px 24px;
+  }
+
+  .help-cta__title {
+    font-size: 26px;
+  }
+
+  .help-cta__text {
+    font-size: 16px;
+  }
+}

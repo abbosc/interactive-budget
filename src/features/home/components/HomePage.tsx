@@ -1,110 +1,98 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { InteractiveMap } from './InteractiveMap'
-import './HomePageStyles.css'
-
-// Uzbekistan regions with their codes
-const REGIONS = [
-  { id: 'UZ-AN', name: 'Andijon', nameEn: 'Andijan' },
-  { id: 'UZ-BU', name: 'Buxoro', nameEn: 'Bukhara' },
-  { id: 'UZ-FA', name: "Farg'ona", nameEn: 'Fergana' },
-  { id: 'UZ-JI', name: 'Jizzax', nameEn: 'Jizzakh' },
-  { id: 'UZ-NG', name: 'Namangan', nameEn: 'Namangan' },
-  { id: 'UZ-NW', name: 'Navoiy', nameEn: 'Navoiy' },
-  { id: 'UZ-QA', name: 'Qashqadaryo', nameEn: 'Kashkadarya' },
-  { id: 'UZ-QR', name: "Qoraqalpog'iston", nameEn: 'Karakalpakstan' },
-  { id: 'UZ-SA', name: 'Samarqand', nameEn: 'Samarkand' },
-  { id: 'UZ-SI', name: 'Sirdaryo', nameEn: 'Sirdarya' },
-  { id: 'UZ-SU', name: 'Surxondaryo', nameEn: 'Surkhandarya' },
-  { id: 'UZ-TK', name: 'Toshkent City', nameEn: 'Tashkent City' },
-  { id: 'UZ-TO', name: 'Toshkent', nameEn: 'Tashkent Region' },
-  { id: 'UZ-XO', name: 'Xorazm', nameEn: 'Khorezm' },
-]
+import '../../../features/maktabim/components/MaktabimPageStyles.css'
 
 export function HomePage() {
-  const navigate = useNavigate()
-  const [hoveredRegion, setHoveredRegion] = useState<string | null>(null)
-  const [selectedRegion, setSelectedRegion] = useState<string | null>(null)
-
-  const handleRegionClick = (regionId: string) => {
-    setSelectedRegion(regionId)
-    // For now, we'll navigate to a Tashkent example
-    // You can add region-specific routes later
-    setTimeout(() => {
-      navigate(`/region/${regionId}`)
-    }, 300)
-  }
-
-  const getRegionInfo = (regionId: string) => {
-    return REGIONS.find(r => r.id === regionId)
-  }
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   return (
-    <div className="home-page">
+    <div className="maktabim-page">
       {/* Header */}
-      <header className="home-header">
-        <div className="home-header__content">
-          <h1 className="home-header__title">O'zbekiston Byudjeti</h1>
-          <p className="home-header__subtitle">
-            Hududingiz byudjetini ko'ring va takliflar bering
-          </p>
+      <header className="maktabim-header">
+        <div className="maktabim-header__container">
+          <div className="maktabim-header__logo">
+            <img src="/images/image-svg+xml-1.svg" alt="OpenBudget Logo" className="maktabim-header__logo-img" />
+            <div className="maktabim-header__logo-text">
+              <div className="maktabim-header__logo-title">OpenBudget</div>
+              <div className="maktabim-header__logo-subtitle">O'zbekiston Respublikasi<br/>Ochiq Budjet Portali</div>
+            </div>
+          </div>
+          <nav className="maktabim-header__nav">
+            <a href="#" className="maktabim-header__nav-link">Портал</a>
+            <a href="#" className="maktabim-header__nav-link">Бюджет тизими</a>
+            <a href="#" className="maktabim-header__nav-link">Бюджет ижроси</a>
+            <div
+              className={`maktabim-header__nav-dropdown ${isDropdownOpen ? 'active' : ''}`}
+              onMouseEnter={() => setIsDropdownOpen(true)}
+              onMouseLeave={() => setIsDropdownOpen(false)}
+            >
+              <span className="maktabim-header__nav-link maktabim-header__nav-link--dropdown">
+                Фуқаролар бюджети
+              </span>
+              {isDropdownOpen && (
+                <div className="maktabim-header__dropdown-menu">
+                  <a href="/about" className="maktabim-header__dropdown-item">Тўғрисида</a>
+                  <a href="/map-page" className="maktabim-header__dropdown-item">Таклиф киритиш</a>
+                  <a href="/plans" className="maktabim-header__dropdown-item">Натижалар</a>
+                  <a href="/help" className="maktabim-header__dropdown-item">Ёрдам</a>
+                </div>
+              )}
+            </div>
+            <a href="#" className="maktabim-header__nav-link">
+              Маҳалла бюджети
+              <span className="maktabim-header__badge">New</span>
+            </a>
+            <a href="#" className="maktabim-header__nav-link">Ташаббусли бюджет</a>
+          </nav>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="home-content">
-        <div className="home-content__wrapper">
-          <div className="home-map-section">
-            <h2 className="home-map-section__title">Hududingizni tanlang</h2>
-            <p className="home-map-section__description">
-              Xaritada o'z hududingizni bosing
-            </p>
+      <main className="maktabim-main">
+        <div className="maktabim-content">
+          {/* Left Column - School illustration and title */}
+          <div className="maktabim-left-column">
+            <div className="maktabim-illustration">
+              <img src="/images/image-png-1.png" alt="School Building" />
+            </div>
+            <div className="maktabim-title">
+              <h1 className="maktabim-title__text">
+                Mening maktabim<br />2025/2026
+              </h1>
+            </div>
+          </div>
 
-            {/* Map Container */}
-            <div className="home-map-container">
-              <InteractiveMap
-                onRegionClick={handleRegionClick}
-                onRegionHover={setHoveredRegion}
-              />
+          {/* Right Column - Cards and button */}
+          <div className="maktabim-right-column">
+            <div className="maktabim-cards">
+              <div className="maktabim-card">
+                <img src="/images/image-png-2.png" alt="Coins" className="maktabim-card__icon" />
+                <h3 className="maktabim-card__title">Loyiha haqida</h3>
+              </div>
 
-              {/* Tooltip */}
-              {hoveredRegion && (
-                <div className="home-map-tooltip">
-                  {getRegionInfo(hoveredRegion)?.name}
-                </div>
-              )}
+              <div className="maktabim-card">
+                <img src="/images/image-png-3.png" alt="Notebook" className="maktabim-card__icon" />
+                <h3 className="maktabim-card__title">Shartlar</h3>
+              </div>
+
+              <div className="maktabim-card">
+                <img src="/images/image-png-4.png" alt="Trophy" className="maktabim-card__icon" />
+                <h3 className="maktabim-card__title">Loyiha namunalari</h3>
+              </div>
+
+              <div className="maktabim-card">
+                <img src="/images/image-png-5.png" alt="Phone" className="maktabim-card__icon" />
+                <h3 className="maktabim-card__title">Tanlovda ishtirok etish</h3>
+              </div>
             </div>
 
-            {/* Region List (Alternative to map) */}
-            <div className="home-regions-list">
-              <h3 className="home-regions-list__title">
-                Yoki ro'yxatdan tanlang:
-              </h3>
-              <div className="home-regions-grid">
-                {REGIONS.map((region) => (
-                  <button
-                    key={region.id}
-                    onClick={() => handleRegionClick(region.id)}
-                    className={`home-region-card ${
-                      selectedRegion === region.id ? 'selected' : ''
-                    }`}
-                  >
-                    <div className="home-region-card__name">{region.name}</div>
-                    <div className="home-region-card__name-en">
-                      {region.nameEn}
-                    </div>
-                  </button>
-                ))}
-              </div>
+            <div className="maktabim-cta">
+              <button className="maktabim-cta__button">
+                ISHTIROK ETISH
+              </button>
             </div>
           </div>
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="home-footer">
-        <p>© 2024 O'zbekiston Respublikasi Moliya Vazirligi</p>
-      </footer>
     </div>
   )
 }

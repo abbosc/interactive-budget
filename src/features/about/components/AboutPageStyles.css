@@ -1,0 +1,260 @@
+/* Import navbar styles */
+@import '../../region/components/RegionPageStyles.css';
+
+/* About Page Styles */
+
+.about-page {
+  min-height: 100vh;
+  background: #e8f4f7;
+  font-family: 'OpenSans', Arial, Helvetica, sans-serif;
+  zoom: 0.8;
+}
+
+/* Hero Section */
+.about-hero {
+  background: linear-gradient(135deg, #1f2c40 0%, #35bfdc 100%);
+  padding: 80px 20px;
+  text-align: center;
+  color: white;
+}
+
+.about-hero__content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.about-hero__title {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.about-hero__subtitle {
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.6;
+  opacity: 0.95;
+}
+
+/* Content Section */
+.about-content {
+  padding: 60px 20px;
+}
+
+.about-content__wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-section {
+  margin-bottom: 80px;
+}
+
+.about-section__title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1f2c40;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+/* Introduction */
+.about-intro {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.about-intro__text {
+  font-size: 18px;
+  line-height: 1.8;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Features Grid */
+.about-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.about-feature-card {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.about-feature-card__icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  color: white;
+}
+
+.about-feature-card__title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1f2c40;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.about-feature-card__text {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #666;
+  text-align: center;
+}
+
+/* Steps */
+.about-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.about-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.about-step__number {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #35bfdc 0%, #28a745 100%);
+  color: white;
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(53, 191, 220, 0.3);
+}
+
+.about-step__content {
+  flex: 1;
+}
+
+.about-step__title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1f2c40;
+  margin-bottom: 12px;
+}
+
+.about-step__text {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #666;
+}
+
+/* Call to Action */
+.about-cta {
+  background: linear-gradient(135deg, #35bfdc 0%, #28a745 100%);
+  border-radius: 24px;
+  padding: 60px 40px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  margin-top: 60px;
+}
+
+.about-cta__content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.about-cta__title {
+  font-size: 36px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.about-cta__text {
+  font-size: 20px;
+  line-height: 1.6;
+  color: white;
+  opacity: 0.95;
+  margin-bottom: 32px;
+}
+
+.about-cta__button {
+  background: white;
+  color: #35bfdc;
+  border: none;
+  border-radius: 12px;
+  padding: 18px 48px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.about-cta__button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  background: #f8f9fa;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .about-hero {
+    padding: 60px 20px;
+  }
+
+  .about-hero__title {
+    font-size: 32px;
+  }
+
+  .about-hero__subtitle {
+    font-size: 18px;
+  }
+
+  .about-section__title {
+    font-size: 28px;
+  }
+
+  .about-features {
+    grid-template-columns: 1fr;
+  }
+
+  .about-steps {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .about-cta {
+    padding: 40px 24px;
+  }
+
+  .about-cta__title {
+    font-size: 28px;
+  }
+
+  .about-cta__text {
+    font-size: 16px;
+  }
+
+  .about-intro__text {
+    font-size: 16px;
+  }
+}

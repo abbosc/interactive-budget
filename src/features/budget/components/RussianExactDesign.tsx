@@ -1,7 +1,7 @@
 // Budget page with row-based category expansion
 import { useState, useMemo, Fragment, memo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Info, ChevronDown, TrendingUp, TrendingDown } from 'lucide-react'
+import { Info, ChevronDown, TrendingUp, TrendingDown, X } from 'lucide-react'
 import { NoUiSlider } from '../../../components/ui/NoUiSlider'
 import { UserInfoDialog } from './UserInfoDialog'
 import { useBudgetData } from '../hooks/useBudgetData'
@@ -11,6 +11,7 @@ import { formatNumber } from '../../../lib/formatters'
 import { useGridColumns } from '../../../lib/hooks/useMediaQuery'
 import type { Impact, ThresholdType, Category } from '../../../types/budget'
 import './RussianStyles.css'
+import '../../region/components/RegionPageStyles.css'
 
 // Helper to format millions
 const formatMillions = (value: number) => {
@@ -143,6 +144,11 @@ export function RussianExactDesign() {
   const { changes, setChange, removeChange, clearChanges } = useBudgetStore()
   const [showUserDialog, setShowUserDialog] = useState(false)
   const [expandedCategoryId, setExpandedCategoryId] = useState<string | null>(null)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [showInfoModal, setShowInfoModal] = useState(false)
+  const [infoType, setInfoType] = useState<'income' | 'expenses' | 'deficit' | null>(null)
+  const [showCategoryInfo, setShowCategoryInfo] = useState(false)
+  const [categoryInfoData, setCategoryInfoData] = useState<{ title: string; description: string } | null>(null)
   const gridColumns = useGridColumns()
 
   // Helper function to chunk array into rows
@@ -273,15 +279,112 @@ export function RussianExactDesign() {
     return impacts.find(impact => impact.threshold_type === targetThreshold) || null
   }
 
+  // Handle info button click
+  const handleInfoClick = (type: 'income' | 'expenses' | 'deficit') => {
+    setInfoType(type)
+    setShowInfoModal(true)
+  }
+
+  // Generate random budget breakdown data
+  const getInfoModalData = () => {
+    if (!infoType) return null
+
+    switch (infoType) {
+      case 'income':
+        return {
+          title: 'Даромадлар тафсилоти',
+          items: [
+            { name: 'Солиқ тушумлари', amount: Math.floor(config.total_income * 0.45), percent: '45%' },
+            { name: 'Божхона йиғимлари', amount: Math.floor(config.total_income * 0.28), percent: '28%' },
+            { name: 'Давлат мулки ижараси', amount: Math.floor(config.total_income * 0.15), percent: '15%' },
+            { name: 'Бошқа даромадлар', amount: Math.floor(config.total_income * 0.12), percent: '12%' },
+          ]
+        }
+      case 'expenses':
+        return {
+          title: 'Харажатлар тафсилоти',
+          items: [
+            { name: 'Таълим', amount: Math.floor(totalExpenses * 0.32), percent: '32%' },
+            { name: 'Соғлиқни сақлаш', amount: Math.floor(totalExpenses * 0.26), percent: '26%' },
+            { name: 'Инфратузилма', amount: Math.floor(totalExpenses * 0.22), percent: '22%' },
+            { name: 'Ижтимоий ҳимоя', amount: Math.floor(totalExpenses * 0.20), percent: '20%' },
+          ]
+        }
+      case 'deficit':
+        return {
+          title: 'Дефицит ёпиш манбалари',
+          items: [
+            { name: 'Ички қарзлар', amount: Math.floor(Math.abs(deficit) * 0.55), percent: '55%' },
+            { name: 'Ташқи қарзлар', amount: Math.floor(Math.abs(deficit) * 0.30), percent: '30%' },
+            { name: 'Грантлар', amount: Math.floor(Math.abs(deficit) * 0.15), percent: '15%' },
+          ]
+        }
+      default:
+        return null
+    }
+  }
+
+  const modalData = getInfoModalData()
+
+  // Handle category/subcategory info button click
+  const handleCategoryInfoClick = (categoryName: string, subcategoryName?: string) => {
+    const title = subcategoryName
+      ? `${categoryName} / ${subcategoryName}`
+      : categoryName
+
+    const descriptions = [
+      "Ushbu bo'lim mamlakatning umumiy boshqaruvi va xavfsizligini ta'minlashga qaratilgan.",
+      "Ushbu xizmatlar aholining hayot sifatini oshirish va ijtimoiy himoya tizimini mustahkamlashga yo'naltirilgan.",
+      "Mamlakatning iqtisodiy rivojlanishi va infratuzilmasini takomillashtirish maqsadida ajratilgan.",
+      "Ta'lim va sog'liqni saqlash sohasidagi xizmatlar sifatini oshirish uchun mo'ljallangan.",
+      "Madaniyat, sport va yoshlar siyosatini qo'llab-quvvatlash hamda rivojlantirish maqsadida ajratilgan.",
+    ]
+
+    const description = descriptions[Math.floor(Math.random() * descriptions.length)]
+
+    setCategoryInfoData({ title, description })
+    setShowCategoryInfo(true)
+  }
+
   return (
     <div className="russian-page">
-      {/* Header */}
-      <header className="russian-header">
-        <div className="russian-header__content">
-          <div className="russian-header__title">
-            <div className="russian-header__main-title">Fuqarolar uchun interaktiv byudjet</div>
-            <div className="russian-header__subtitle">Toshkent shahri</div>
+      {/* Navbar */}
+      <header className="region-navbar">
+        <div className="region-navbar__container">
+          <div className="region-navbar__logo">
+            <img src="/images/image-svg+xml-1.svg" alt="OpenBudget Logo" className="region-navbar__logo-img" />
+            <div className="region-navbar__logo-text">
+              <div className="region-navbar__logo-title">OpenBudget</div>
+              <div className="region-navbar__logo-subtitle">O'zbekiston Respublikasi<br/>Ochiq Budjet Portali</div>
+            </div>
           </div>
+          <nav className="region-navbar__nav">
+            <a href="/" className="region-navbar__nav-link">Портал</a>
+            <a href="#" className="region-navbar__nav-link">Бюджет тизими</a>
+            <a href="#" className="region-navbar__nav-link">Бюджет ижроси</a>
+            <div
+              className={`region-navbar__nav-dropdown ${isDropdownOpen ? 'active' : ''}`}
+              onMouseEnter={() => setIsDropdownOpen(true)}
+              onMouseLeave={() => setIsDropdownOpen(false)}
+            >
+              <span className="region-navbar__nav-link region-navbar__nav-link--dropdown">
+                Фуқаролар бюджети
+              </span>
+              {isDropdownOpen && (
+                <div className="region-navbar__dropdown-menu">
+                  <a href="/about" className="region-navbar__dropdown-item">Тўғрисида</a>
+                  <a href="/map-page" className="region-navbar__dropdown-item">Таклиф киритиш</a>
+                  <a href="/plans" className="region-navbar__dropdown-item">Натижалар</a>
+                  <a href="/help" className="region-navbar__dropdown-item">Ёрдам</a>
+                </div>
+              )}
+            </div>
+            <a href="#" className="region-navbar__nav-link">
+              Маҳалла бюджети
+              <span className="region-navbar__badge">New</span>
+            </a>
+            <a href="#" className="region-navbar__nav-link">Ташаббусли бюджет</a>
+          </nav>
         </div>
       </header>
 
@@ -289,7 +392,7 @@ export function RussianExactDesign() {
       <div className="russian-total-budget">
         <div className="russian-total-budget__content">
           <div className="russian-total-budget__box russian-total-budget__box--income">
-            <button className="russian-total-budget__info-btn">
+            <button className="russian-total-budget__info-btn" onClick={() => handleInfoClick('income')}>
               <Info size={18} />
             </button>
             <div className="russian-total-budget__title">Daromadlar</div>
@@ -300,7 +403,7 @@ export function RussianExactDesign() {
           </div>
 
           <div className="russian-total-budget__box russian-total-budget__box--expenses">
-            <button className="russian-total-budget__info-btn">
+            <button className="russian-total-budget__info-btn" onClick={() => handleInfoClick('expenses')}>
               <Info size={18} />
             </button>
             <div className="russian-total-budget__title">Xarajatlar</div>
@@ -311,7 +414,7 @@ export function RussianExactDesign() {
           </div>
 
           <div className="russian-total-budget__box russian-total-budget__box--deficit">
-            <button className="russian-total-budget__info-btn">
+            <button className="russian-total-budget__info-btn" onClick={() => handleInfoClick('deficit')}>
               <Info size={18} />
             </button>
             <div className="russian-total-budget__title">
@@ -364,6 +467,13 @@ export function RussianExactDesign() {
                           dangerouslySetInnerHTML={{ __html: expandedCategory.icon }}
                         />
                         <h3 className="russian-spending__sub-header-title">{expandedCategory.name}</h3>
+                        <button
+                          className="russian-spending__category-info-btn"
+                          onClick={() => handleCategoryInfoClick(expandedCategory.name)}
+                          title="Ma'lumot olish"
+                        >
+                          <Info size={20} />
+                        </button>
                       </div>
                       <ul>
                         {expandedCategory.subcategories?.map((subcategory) => {
@@ -388,6 +498,13 @@ export function RussianExactDesign() {
                                   <span className="russian-spending__title-text">{expandedCategory.name}</span>
                                   <span className="russian-spending__title-slash">{'\u00A0/\u00A0'}</span>
                                   <span className="russian-spending__name">{subcategory.name}</span>
+                                  <button
+                                    className="russian-spending__subcategory-info-btn"
+                                    onClick={() => handleCategoryInfoClick(expandedCategory.name, subcategory.name)}
+                                    title="Ma'lumot olish"
+                                  >
+                                    <Info size={16} />
+                                  </button>
                                 </div>
                               </div>
 
@@ -523,6 +640,58 @@ export function RussianExactDesign() {
         onSubmit={handleUserInfoSubmit}
         isLoading={saveBudgetPlan.isPending}
       />
+
+      {/* Info Modal */}
+      {showInfoModal && modalData && (
+        <div className="info-modal-overlay" onClick={() => setShowInfoModal(false)}>
+          <div className="info-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="info-modal__header">
+              <h3 className="info-modal__title">{modalData.title}</h3>
+              <button className="info-modal__close" onClick={() => setShowInfoModal(false)}>
+                <X size={24} />
+              </button>
+            </div>
+            <div className="info-modal__content">
+              <div className="info-modal__list">
+                {modalData.items.map((item, index) => (
+                  <div key={index} className="info-modal__item">
+                    <div className="info-modal__item-header">
+                      <span className="info-modal__item-name">{item.name}</span>
+                      <span className="info-modal__item-percent">{item.percent}</span>
+                    </div>
+                    <div className="info-modal__item-amount">{formatMillions(item.amount)} млрд сўм</div>
+                    <div className="info-modal__item-bar">
+                      <div
+                        className="info-modal__item-bar-fill"
+                        style={{ width: item.percent }}
+                      ></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Category/Subcategory Info Modal */}
+      {showCategoryInfo && categoryInfoData && (
+        <div className="info-modal-overlay" onClick={() => setShowCategoryInfo(false)}>
+          <div className="info-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="info-modal__header">
+              <h3 className="info-modal__title">{categoryInfoData.title}</h3>
+              <button className="info-modal__close" onClick={() => setShowCategoryInfo(false)}>
+                <X size={24} />
+              </button>
+            </div>
+            <div className="info-modal__content">
+              <p style={{ fontSize: '16px', lineHeight: '1.6', color: '#333' }}>
+                {categoryInfoData.description}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

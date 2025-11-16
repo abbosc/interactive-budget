@@ -6,6 +6,7 @@
   background: #08222d;
   font-family: 'OpenSans', Arial, Helvetica, sans-serif;
   color: #fff;
+  zoom: 0.8;
 }
 
 .russian-loading {
@@ -42,7 +43,7 @@
 /* Top Budget Summary Boxes */
 .russian-total-budget {
   padding: 20px 0;
-  background: #1f2c40;
+  background: #08222d;
 }
 
 .russian-total-budget__content {
@@ -96,6 +97,7 @@
   justify-content: center;
   cursor: pointer;
   transition: background 0.2s ease;
+  z-index: 10;
 }
 
 .russian-total-budget__info-btn:hover {
@@ -538,4 +540,220 @@
   .russian-content__title {
     font-size: 24px;
   }
+}
+
+
+/* Info Modal */
+.info-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.info-modal {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.info-modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 28px;
+  border-bottom: 2px solid #e0e0e0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 16px 16px 0 0;
+}
+
+.info-modal__title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1f2c40;
+  margin: 0;
+}
+
+.info-modal__close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.info-modal__close:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #333;
+}
+
+.info-modal__content {
+  padding: 28px;
+}
+
+.info-modal__list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.info-modal__item {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border-left: 4px solid #35bfdc;
+  transition: all 0.2s ease;
+}
+
+.info-modal__item:hover {
+  background: #e9ecef;
+  transform: translateX(4px);
+}
+
+.info-modal__item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.info-modal__item-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2c40;
+}
+
+.info-modal__item-percent {
+  font-size: 18px;
+  font-weight: 700;
+  color: #35bfdc;
+}
+
+.info-modal__item-amount {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 12px;
+}
+
+.info-modal__item-bar {
+  width: 100%;
+  height: 12px;
+  background: #d1d9e0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.info-modal__item-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #35bfdc 0%, #28a745 100%);
+  border-radius: 6px;
+  transition: width 0.5s ease;
+}
+
+@media (max-width: 768px) {
+  .info-modal {
+    width: 95%;
+    max-height: 90vh;
+  }
+
+  .info-modal__header {
+    padding: 20px;
+  }
+
+  .info-modal__title {
+    font-size: 18px;
+  }
+
+  .info-modal__content {
+    padding: 20px;
+  }
+
+  .info-modal__item {
+    padding: 16px;
+  }
+
+  .info-modal__item-name {
+    font-size: 14px;
+  }
+
+  .info-modal__item-amount {
+    font-size: 18px;
+  }
+}
+
+
+/* Category and Subcategory Info Buttons */
+.russian-spending__category-info-btn {
+  background: rgba(53, 191, 220, 0.1);
+  border: 1px solid #35bfdc;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #35bfdc;
+  margin-left: auto;
+}
+
+.russian-spending__category-info-btn:hover {
+  background: rgba(53, 191, 220, 0.2);
+  transform: scale(1.1);
+}
+
+.russian-spending__subcategory-info-btn {
+  background: rgba(53, 191, 220, 0.08);
+  border: 1px solid #35bfdc;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #35bfdc;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+.russian-spending__subcategory-info-btn:hover {
+  background: rgba(53, 191, 220, 0.15);
+  transform: scale(1.1);
 }
