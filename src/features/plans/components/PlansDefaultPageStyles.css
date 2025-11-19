@@ -1,0 +1,458 @@
+/* Plans Default Page Styles */
+
+.plans-default-page {
+  min-height: 100vh;
+  background: #f7f8fc;
+  zoom: 0.8;
+}
+
+/* Loading & Error States */
+.plans-default-loading,
+.plans-default-error {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.plans-default-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #e0e0e0;
+  border-top-color: #197790;
+  border-radius: 50%;
+  animation: plans-default-spin 1s linear infinite;
+}
+
+@keyframes plans-default-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.plans-default-error {
+  color: #f44336;
+}
+
+/* Navbar */
+.plans-default-navbar {
+  background: #1f2c40;
+  padding: 16px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.plans-default-navbar__container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.plans-default-navbar__logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  color: #fff;
+}
+
+.plans-default-navbar__logo-img {
+  width: 50px;
+  height: 50px;
+}
+
+.plans-default-navbar__logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.plans-default-navbar__logo-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.plans-default-navbar__logo-subtitle {
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.3;
+}
+
+.plans-default-navbar__nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.plans-default-navbar__link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  position: relative;
+}
+
+.plans-default-navbar__link:hover {
+  color: #4fc3f7;
+}
+
+.plans-default-navbar__link--active {
+  color: #4fc3f7;
+}
+
+.plans-default-navbar__link--active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #4fc3f7;
+}
+
+/* Stats Section */
+.plans-default-stats {
+  padding: 40px 0;
+  background: #f7f8fc;
+}
+
+.plans-default-stats__container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.plans-default-stats-card {
+  background: linear-gradient(135deg, #5BA4D3 0%, #4A8FBD 100%);
+  padding: 24px 32px;
+  color: #fff;
+  border-radius: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.plans-default-stats-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  margin-bottom: 16px;
+}
+
+.plans-default-stats-card__header:last-of-type {
+  margin-bottom: 24px;
+}
+
+.plans-default-stats-card__header-icon {
+  flex-shrink: 0;
+}
+
+.plans-default-stats-card__header-text {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.plans-default-stats-card__sections {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+.plans-default-stats-card__section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.plans-default-stats-card__section-title {
+  font-size: 14px;
+  font-weight: 600;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.plans-default-stats-card__items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.plans-default-stats-card__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.plans-default-stats-card__item-label {
+  flex: 1;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.plans-default-stats-card__item-value {
+  font-weight: 700;
+  flex-shrink: 0;
+  min-width: 24px;
+  text-align: right;
+}
+
+/* Summary Section */
+.plans-default-summary {
+  padding: 40px 0 20px 0;
+  background: #e8f4f7;
+}
+
+.plans-default-summary__container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.plans-default-summary__title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.plans-default-budget-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.plans-default-budget-card {
+  border-radius: 0;
+  padding: 24px;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.plans-default-budget-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.plans-default-budget-card--income {
+  background: #FA1C4F;
+}
+
+.plans-default-budget-card--expenses {
+  background: #FA1C4F;
+}
+
+.plans-default-budget-card--deficit {
+  background: #FA1C4F;
+}
+
+.plans-default-budget-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.plans-default-budget-card__title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.plans-default-budget-card__original {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.plans-default-budget-card__original .plans-default-budget-card__value {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.plans-default-budget-card__original .plans-default-budget-card__currency {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.plans-default-budget-card__proposed {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.plans-default-budget-card__icon {
+  flex-shrink: 0;
+}
+
+.plans-default-budget-card__proposed .plans-default-budget-card__value {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.plans-default-budget-card__proposed .plans-default-budget-card__currency {
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.plans-default-budget-card__change {
+  font-size: 14px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-left: auto;
+}
+
+/* Categories Table Section */
+.plans-default-categories {
+  padding: 60px 0;
+  background: #fff;
+}
+
+.plans-default-categories__container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.plans-default-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.plans-default-table__row {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.plans-default-table__row:first-child {
+  border-top: 1px solid #f0f0f0;
+}
+
+.plans-default-table__row:hover {
+  background: #f8f9fa;
+}
+
+.plans-default-table__cell {
+  padding: 16px 20px;
+  vertical-align: middle;
+}
+
+.plans-default-table__cell--category {
+  width: 45%;
+}
+
+.plans-default-table__cell--change {
+  width: 20%;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.plans-default-table__cell--people {
+  width: 35%;
+}
+
+.plans-default-table__category-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.plans-default-table__category-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.plans-default-table__category-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.plans-default-table__subcat-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+  padding-left: 44px;
+}
+
+.plans-default-table__progress-container {
+  position: relative;
+  height: 24px;
+  background: #f0f0f0;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.plans-default-table__progress-bar {
+  height: 100%;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.plans-default-table__participants {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .plans-default-budget-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .plans-default-stats-card__sections {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .plans-default-hero__title {
+    font-size: 32px;
+  }
+
+  .plans-default-hero__subtitle {
+    font-size: 16px;
+  }
+
+  .plans-default-stats-card__sections {
+    grid-template-columns: 1fr;
+  }
+
+  .plans-default-stats-card {
+    padding: 20px;
+  }
+}

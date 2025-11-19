@@ -8,6 +8,7 @@ import { UserInfoDialog } from './UserInfoDialog'
 import { useBudgetData } from '../hooks/useBudgetData'
 import { useSaveBudgetPlan } from '../hooks/useSaveBudgetPlan'
 import { useBudgetStore } from '../../../stores/budgetStore'
+import '../../region/components/RegionPageStyles.css'
 
 export function BudgetPage() {
   const navigate = useNavigate()
@@ -15,6 +16,7 @@ export function BudgetPage() {
   const saveBudgetPlan = useSaveBudgetPlan()
   const { changes, clearChanges } = useBudgetStore()
   const [showUserDialog, setShowUserDialog] = useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   const handleReset = () => {
     if (confirm('Are you sure you want to reset all changes?')) {
@@ -110,7 +112,46 @@ export function BudgetPage() {
   const hasChanges = Object.keys(changes).length > 0
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <>
+      {/* Navbar */}
+      <header className="region-navbar">
+        <div className="region-navbar__container">
+          <div className="region-navbar__logo">
+            <img src="/images/image-svg+xml-1.svg" alt="OpenBudget Logo" className="region-navbar__logo-img" />
+            <div className="region-navbar__logo-text">
+              <div className="region-navbar__logo-title">OpenBudget</div>
+              <div className="region-navbar__logo-subtitle">O'zbekiston Respublikasi<br/>Ochiq Budjet Portali</div>
+            </div>
+          </div>
+          <nav className="region-navbar__nav">
+            <a href="/" className="region-navbar__nav-link">Портал</a>
+            <a href="#" className="region-navbar__nav-link">Бюджет тизими</a>
+            <a href="#" className="region-navbar__nav-link">Бюджет ижроси</a>
+            <div
+              className={`region-navbar__nav-dropdown ${isDropdownOpen ? 'active' : ''}`}
+              onMouseEnter={() => setIsDropdownOpen(true)}
+              onMouseLeave={() => setIsDropdownOpen(false)}
+            >
+              <span className="region-navbar__nav-link region-navbar__nav-link--dropdown">
+                Фуқаролар бюджети
+              </span>
+              {isDropdownOpen && (
+                <div className="region-navbar__dropdown-menu">
+                  <a href="/about" className="region-navbar__dropdown-item">Тўғрисида</a>
+                  <a href="/map-page" className="region-navbar__dropdown-item">Таклиф киритиш</a>
+                </div>
+              )}
+            </div>
+            <a href="#" className="region-navbar__nav-link">
+              Маҳалла бюджети
+              <span className="region-navbar__badge">New</span>
+            </a>
+            <a href="#" className="region-navbar__nav-link">Ташаббусли бюджет</a>
+          </nav>
+        </div>
+      </header>
+
+      <div className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto p-8">
         <div className="mb-8 flex justify-between items-center">
           <div>
@@ -173,6 +214,7 @@ export function BudgetPage() {
           </div>
         </div>
       </div>
+      </div>
 
       <UserInfoDialog
         open={showUserDialog}
@@ -180,6 +222,6 @@ export function BudgetPage() {
         onSubmit={handleUserInfoSubmit}
         isLoading={saveBudgetPlan.isPending}
       />
-    </div>
+    </>
   )
 }

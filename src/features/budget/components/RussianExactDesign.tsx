@@ -1,7 +1,7 @@
 // Budget page with row-based category expansion
 import { useState, useMemo, Fragment, memo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Info, ChevronDown, TrendingUp, TrendingDown, X } from 'lucide-react'
+import { Info, ChevronDown, X, HelpCircle } from 'lucide-react'
 import { NoUiSlider } from '../../../components/ui/NoUiSlider'
 import { UserInfoDialog } from './UserInfoDialog'
 import { useBudgetData } from '../hooks/useBudgetData'
@@ -98,7 +98,7 @@ const CategoryCard = memo(({ category, changes, expandedCategoryId, totalExpense
             <div className="russian-spending__sum-description">
               <div className="russian-spending__sum-description-col">
                 <span className="russian-spending__sum-description-title">
-                  Tasdiqlangan byudjetda:
+                  Tasdiqlangan budjetda:
                 </span>
                 <span>{formatMillions(categoryDefault)} mlrd so'm</span>
               </div>
@@ -374,7 +374,7 @@ export function RussianExactDesign() {
                 <div className="region-navbar__dropdown-menu">
                   <a href="/about" className="region-navbar__dropdown-item">Тўғрисида</a>
                   <a href="/map-page" className="region-navbar__dropdown-item">Таклиф киритиш</a>
-                  <a href="/plans" className="region-navbar__dropdown-item">Натижалар</a>
+                  <a href="/plans-default" className="region-navbar__dropdown-item">Натижалар</a>
                   <a href="/help" className="region-navbar__dropdown-item">Ёрдам</a>
                 </div>
               )}
@@ -472,7 +472,7 @@ export function RussianExactDesign() {
                           onClick={() => handleCategoryInfoClick(expandedCategory.name)}
                           title="Ma'lumot olish"
                         >
-                          <Info size={20} />
+                          <HelpCircle size={20} />
                         </button>
                       </div>
                       <ul>
@@ -503,7 +503,7 @@ export function RussianExactDesign() {
                                     onClick={() => handleCategoryInfoClick(expandedCategory.name, subcategory.name)}
                                     title="Ma'lumot olish"
                                   >
-                                    <Info size={16} />
+                                    <HelpCircle size={16} />
                                   </button>
                                 </div>
                               </div>
@@ -512,17 +512,6 @@ export function RussianExactDesign() {
                                 <div className="russian-spending__resume">
                                   <div className="russian-spending__sum russian-spending__sum--slider">
                                     {formatMillions(currentValue)} mlrd so'm
-                                  </div>
-                                  <div style={{ fontSize: '13px', color: '#666', marginTop: '4px' }}>
-                                    {(() => {
-                                      const change = currentValue - subcategory.default_value
-                                      const changeMln = change / 1_000_000
-                                      if (Math.abs(changeMln) < 0.01) return 'O\'zgarish: 0 mlrd so\'m'
-                                      const formatted = formatNumber(Math.abs(changeMln), 1)
-                                      return change >= 0
-                                        ? `O'zgarish: +${formatted} mlrd so'm`
-                                        : `O'zgarish: −${formatted} mlrd so'm`
-                                    })()}
                                   </div>
                                 </div>
 
@@ -533,42 +522,16 @@ export function RussianExactDesign() {
                                     if (!activeImpact) return null
 
                                     const isIncrease = activeImpact.threshold_type.startsWith('increase')
-                                    const thresholdLabel = activeImpact.threshold_type === 'increase_7' ? '+7%' :
-                                                          activeImpact.threshold_type === 'increase_3' ? '+3%' :
-                                                          activeImpact.threshold_type === 'decrease_7' ? '-7%' : '-3%'
 
                                     return (
                                       <div
-                                        className={`russian-spending__impact ${isIncrease ? 'russian-spending__impact--positive' : 'russian-spending__impact--negative'}`}
                                         style={{
-                                          padding: '12px 16px',
-                                          borderRadius: '8px',
-                                          backgroundColor: isIncrease ? '#e8f5e9' : '#ffebee',
-                                          border: `1px solid ${isIncrease ? '#4caf50' : '#f44336'}`,
+                                          fontSize: '15px',
+                                          color: isIncrease ? '#4caf50' : '#f44336',
+                                          lineHeight: '1.5',
                                         }}
                                       >
-                                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-                                          {isIncrease ? (
-                                            <TrendingUp size={20} style={{ color: '#4caf50', flexShrink: 0, marginTop: '2px' }} />
-                                          ) : (
-                                            <TrendingDown size={20} style={{ color: '#f44336', flexShrink: 0, marginTop: '2px' }} />
-                                          )}
-                                          <div style={{ flex: 1 }}>
-                                            <div
-                                              style={{
-                                                fontSize: '13px',
-                                                fontWeight: 600,
-                                                color: isIncrease ? '#2e7d32' : '#c62828',
-                                                marginBottom: '4px',
-                                              }}
-                                            >
-                                              {thresholdLabel} natijasi:
-                                            </div>
-                                            <div style={{ fontSize: '14px', color: '#333', lineHeight: '1.5' }}>
-                                              {activeImpact.message}
-                                            </div>
-                                          </div>
-                                        </div>
+                                        {activeImpact.message}
                                       </div>
                                     )
                                   })()}
@@ -593,6 +556,9 @@ export function RussianExactDesign() {
                                     color={expandedCategory.color}
                                     step={1}
                                   />
+                                  <div style={{ fontSize: '13px', color: '#666', marginTop: '8px', textAlign: 'center' }}>
+                                    Tasdiqlangan summa: {formatMillions(subcategory.default_value)} mlrd so'm
+                                  </div>
                                 </div>
                               </div>
                             </li>

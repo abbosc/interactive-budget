@@ -211,7 +211,7 @@ export function RegionPage() {
                 <div className="region-navbar__dropdown-menu">
                   <a href="/about" className="region-navbar__dropdown-item">Тўғрисида</a>
                   <a href="/map-page" className="region-navbar__dropdown-item">Таклиф киритиш</a>
-                  <a href="/plans" className="region-navbar__dropdown-item">Натижалар</a>
+                  <a href="/plans-default" className="region-navbar__dropdown-item">Натижалар</a>
                   <a href="/help" className="region-navbar__dropdown-item">Ёрдам</a>
                 </div>
               )}

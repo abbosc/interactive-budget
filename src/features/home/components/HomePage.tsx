@@ -32,7 +32,7 @@ export function HomePage() {
                 <div className="maktabim-header__dropdown-menu">
                   <a href="/about" className="maktabim-header__dropdown-item">Тўғрисида</a>
                   <a href="/map-page" className="maktabim-header__dropdown-item">Таклиф киритиш</a>
-                  <a href="/plans" className="maktabim-header__dropdown-item">Натижалар</a>
+                  <a href="/plans-default" className="maktabim-header__dropdown-item">Натижалар</a>
                   <a href="/help" className="maktabim-header__dropdown-item">Ёрдам</a>
                 </div>
               )}

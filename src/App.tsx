@@ -8,6 +8,7 @@ import { AdminPage } from './features/admin/components/AdminPage'
 import { RussianExactDesign } from './features/budget/components/RussianExactDesign'
 import { PlansPage } from './features/plans/components/PlansPage'
 import { PlanDetailsPage } from './features/plans/components/PlanDetailsPage'
+import { PlansDefaultPage } from './features/plans/components/PlansDefaultPage'
 import { SummaryPage } from './features/summary/components/SummaryPage'
 import { AboutPage } from './features/about/components/AboutPage'
 import { HelpPage } from './features/help/components/HelpPage'
@@ -36,6 +37,7 @@ function App() {
           <Route path="/summary" element={<SummaryPage />} />
           <Route path="/plans" element={<PlansPage />} />
           <Route path="/plans/:id" element={<PlanDetailsPage />} />
+          <Route path="/plans-default" element={<PlansDefaultPage />} />
         </Routes>
       </BrowserRouter>
       <Toaster position="top-right" />

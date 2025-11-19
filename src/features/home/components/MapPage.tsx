@@ -204,7 +204,8 @@ export function MapPage() {
                 <div className="home-navbar__dropdown-menu">
                   <a href="/about" className="home-navbar__dropdown-item">Тўғрисида</a>
                   <a href="/map-page" className="home-navbar__dropdown-item">Таклиф киритиш</a>
-                  <a href="/plans" className="home-navbar__dropdown-item">Натижалар</a>
+                  <a href="/plans-default" className="home-navbar__dropdown-item">Умумий натижалар</a>
+                  <a href="/plans" className="home-navbar__dropdown-item">Баъча режалар</a>
                   <a href="/help" className="home-navbar__dropdown-item">Ёрдам</a>
                 </div>
               )}

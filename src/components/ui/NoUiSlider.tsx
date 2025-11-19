@@ -51,6 +51,67 @@ export const NoUiSlider = memo(function NoUiSlider({
     return change >= 0 ? `+${formatted} mlrd so'm` : `−${formatted} mlrd so'm`
   }
 
+  // Function to update custom connect bar (optimized with CSS custom properties)
+  const updateConnectBar = (currentValue: number) => {
+    if (!sliderRef.current) return
+
+    const range = max - min
+    const defaultPercent = ((defaultValue - min) / range) * 100
+    const currentPercent = ((currentValue - min) / range) * 100
+
+    const isNegative = currentValue < defaultValue
+    const isAtDefault = Math.abs(currentValue - defaultValue) <= step / 2
+
+    // Update tooltip color
+    const tooltip = sliderRef.current.querySelector('.noUi-tooltip') as HTMLElement
+    if (tooltip) {
+      tooltipRef.current = tooltip
+      if (isAtDefault) {
+        tooltip.dataset.state = 'default'
+      } else {
+        tooltip.dataset.state = isNegative ? 'negative' : 'positive'
+      }
+    }
+
+    // Always try to find the connect bar first
+    let connectDiv = sliderRef.current.querySelector('.custom-connect') as HTMLElement
+
+    if (!connectDiv && !isAtDefault) {
+      // Create element if it doesn't exist and we need it
+      connectDiv = document.createElement('div')
+      connectDiv.className = 'custom-connect'
+      connectDiv.style.cssText = `
+        position: absolute;
+        top: 0;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+        will-change: left, width, background-color;
+      `
+      const base = sliderRef.current.querySelector('.noUi-base')
+      if (base) {
+        base.appendChild(connectDiv)
+        connectDivRef.current = connectDiv
+      }
+    }
+
+    if (connectDiv) {
+      if (!isAtDefault) {
+        // Update position and size using style properties (batched by browser)
+        const left = isNegative ? currentPercent : defaultPercent
+        const width = Math.abs(currentPercent - defaultPercent)
+
+        connectDiv.style.left = `${left}%`
+        connectDiv.style.width = `${width}%`
+        connectDiv.style.backgroundColor = isNegative ? '#ff4444' : '#4CAF50'
+        connectDiv.style.display = 'block'
+      } else {
+        // Hide instead of removing
+        connectDiv.style.display = 'none'
+      }
+    }
+  }
+
   useEffect(() => {
     if (!sliderRef.current) return
 
@@ -89,78 +150,18 @@ export const NoUiSlider = memo(function NoUiSlider({
       onChangeRef.current?.(numValue)
     })
 
-    // Initial connect bar setup
-    updateConnectBar(value)
+    // Initial connect bar setup - use setTimeout to ensure DOM is ready
+    setTimeout(() => {
+      updateConnectBar(value)
+    }, 0)
 
     // Cleanup
     return () => {
       slider.destroy()
+      connectDivRef.current = null
+      tooltipRef.current = null
     }
   }, []) // Only run on mount
-
-  // Function to update custom connect bar (optimized with CSS custom properties)
-  const updateConnectBar = (currentValue: number) => {
-    if (!sliderRef.current) return
-
-    const range = max - min
-    const defaultPercent = ((defaultValue - min) / range) * 100
-    const currentPercent = ((currentValue - min) / range) * 100
-
-    const isNegative = currentValue < defaultValue
-    const isAtDefault = Math.abs(currentValue - defaultValue) <= step / 2
-
-    // Update tooltip color using cached reference
-    if (tooltipRef.current) {
-      const tooltip = tooltipRef.current as HTMLElement
-      // Use dataset attribute instead of classList for better performance
-      if (isAtDefault) {
-        tooltip.dataset.state = 'default'
-      } else {
-        tooltip.dataset.state = isNegative ? 'negative' : 'positive'
-      }
-    }
-
-    // Get or create connect bar element (cached)
-    if (!connectDivRef.current) {
-      connectDivRef.current = sliderRef.current.querySelector('.custom-connect') as HTMLElement
-    }
-
-    let connectDiv = connectDivRef.current
-
-    if (!isAtDefault) {
-      // Create element if it doesn't exist
-      if (!connectDiv) {
-        connectDiv = document.createElement('div')
-        connectDiv.className = 'custom-connect'
-        connectDiv.style.cssText = `
-          position: absolute;
-          top: 0;
-          height: 100%;
-          border-radius: 3px;
-          z-index: 0;
-          pointer-events: none;
-          will-change: left, width, background-color;
-        `
-        const base = sliderRef.current.querySelector('.noUi-base')
-        if (base) {
-          base.appendChild(connectDiv)
-          connectDivRef.current = connectDiv
-        }
-      }
-
-      // Update position and size using style properties (batched by browser)
-      const left = isNegative ? currentPercent : defaultPercent
-      const width = Math.abs(currentPercent - defaultPercent)
-
-      connectDiv.style.left = `${left}%`
-      connectDiv.style.width = `${width}%`
-      connectDiv.style.backgroundColor = isNegative ? '#ff4444' : '#4CAF50'
-      connectDiv.style.display = 'block'
-    } else if (connectDiv) {
-      // Hide instead of removing
-      connectDiv.style.display = 'none'
-    }
-  }
 
   // Update slider value when prop changes
   useEffect(() => {
@@ -172,7 +173,7 @@ export const NoUiSlider = memo(function NoUiSlider({
         updateConnectBar(value)
       }
     }
-  }, [value])
+  }, [value, defaultValue, min, max, step])
 
   return (
     <div className="spending-slider-wrapper">
